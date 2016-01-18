@@ -11,6 +11,6 @@ app.use(express.static(__dirname + '/public'));
 
 app.get('/mesutozil', function(req, res){
     res.send('"Ya Gunners Ya" - Mesut Ozil');
-    res.sendfile('ozil.jpg');
+    res.attachment('/public/ozil.jpg');
 });
 app.listen(port, ipaddress);
