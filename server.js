@@ -10,7 +10,7 @@ var port = process.env.OPENSHIFT_NODEJS_PORT || 3000;
 app.use(express.static(__dirname + '/public'));
 
 app.get('/mesutozil', function(req, res){
-    res.send('"Ya Gunners Ya" - Mesut Ozil1');
-    res.sendfile('/public/ozil.jpg');
+    res.send('"Ya Gunners Ya" - Mesut Ozil');
+    res.sendfile('ozil.jpg');
 });
 app.listen(port, ipaddress);
