@@ -268,28 +268,17 @@ a:focus {
     }
 }
 
-.aboutme-section {
+.afc-section {
     width: 100%;
-    padding: 50px 0;
-    color: #fff;
-    background: url(../img/footer-bg.jpg) no-repeat center center scroll;
+    height: auto;
+    padding: 100px 0;
+    color: white;
+    background: url(../img/gunners-emirates-ucl.jpg) no-repeat center center scroll;
     background-color: #000;
     -webkit-background-size: cover;
     -moz-background-size: cover;
     background-size: cover;
     -o-background-size: cover;
-}
-.links-section {
-    width: 100%;
-    padding: 50px 0;
-    color: #fff;
-    background: url(../img/london-street.jpg) no-repeat center center scroll;
-    background-color: #000;
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
-    background-size: cover;
-    -o-background-size: cover;
-
 }
 
 @media(min-width:767px) {
@@ -297,8 +286,8 @@ a:focus {
         padding-top: 250px;
     }
 
-    .aboutme-section {
-        padding: 100px 0;
+    .afc-section {
+        padding: 200px 0;
     }
 }
 
@@ -313,17 +302,17 @@ a:focus {
 }
 
 .btn-default {
-    border: 1px solid white;
-    color: white;
+    border: 1px solid #fff;
+    color: #fff;
     background-color: transparent;
 }
 
 .btn-default:hover,
 .btn-default:focus {
-    border: 1px solid #42dca3;
+    border: 1px solid white;
     outline: 0;
-    color: #000;
-    background-color: #42dca3;
+    color: #fff;
+    background-color: transparent;
 }
 
 ul.banner-social-buttons {
