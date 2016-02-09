@@ -158,7 +158,7 @@ a:focus {
     padding: 100px 0;
     text-align: center;
     color: #fff;
-    background: url(../img/gunners-main.png) no-repeat bottom center scroll;
+    background: url(../img/gunners-training.png) no-repeat bottom center scroll;
     background-attachment: fixed;
     background-color: #000;
     -webkit-background-size: cover;
@@ -267,6 +267,17 @@ a:focus {
         -moz-transform: scale(1);
         transform: scale(1);
     }
+}
+
+.team-info-section {
+    width: 100%;
+    height: auto;
+    padding: 100px 0;
+    color: white;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    background-size: cover;
+    -o-background-size: cover;
 }
 
 @media(min-width:767px) {
