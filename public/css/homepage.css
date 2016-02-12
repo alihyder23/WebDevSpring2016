@@ -226,7 +226,7 @@ a:focus {
     -moz-animation-timing-function: linear;
 }
 
-@-webkit-keyframes pulse {    
+@-webkit-keyframes pulse {
     0% {
         -webkit-transform: scale(1);
         transform: scale(1);
@@ -243,7 +243,7 @@ a:focus {
     }
 }
 
-@-moz-keyframes pulse {    
+@-moz-keyframes pulse {
     0% {
         -moz-transform: scale(1);
         transform: scale(1);
@@ -342,7 +342,7 @@ footer {
 
 footer p {
     margin: 0;
-    color: #9B8347;
+    color: #fff;
     font-size: small;
 }
 

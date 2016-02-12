@@ -18,6 +18,10 @@ body {
     border-bottom: 1px solid #eee;
 }
 
+.nowrap {
+    white-space: nowrap;
+}
+
 /*
  * Top navigation
  * Hide default border to remove 1px line.
@@ -104,3 +108,4 @@ body {
     display: inline-block;
     border-radius: 50%;
 }
+
