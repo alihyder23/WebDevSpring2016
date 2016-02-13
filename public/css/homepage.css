@@ -59,6 +59,10 @@ a:focus {
     color: #9B8347;
 }
 
+.nowrap {
+    white-space: nowrap;
+}
+
 .light {
     font-weight: 400;
 }
