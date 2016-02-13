@@ -368,3 +368,18 @@ img::-moz-selection {
 body {
     webkit-tap-highlight-color: rgba(255,255,255,.2);
 }
+
+.aboutme-container{
+    float:left ;
+    width:1000px;
+}
+
+.aboutme-left{
+    float:left;
+    width:400px;
+}
+
+.aboutme-right{
+    float:right;
+    width:600px;
+}
