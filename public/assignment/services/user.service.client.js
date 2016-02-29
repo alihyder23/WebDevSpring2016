@@ -19,13 +19,13 @@
             ],
             setCurrentUser: setCurrentUser,
             getCurrentUser: getCurrentUser,
-            findUserByUsername: findUserByUsername,
             findUserByCredentials: findUserByCredentials,
             findAllUsers: findAllUsers,
             createUser: createUser,
             deleteUserById: deleteUserById,
             updateUser: updateUser,
-            findUserById: findUserById
+            findUserById: findUserById,
+            findUserByUsername:findUserByUsername
         };
         return model;
 
@@ -33,8 +33,8 @@
             $rootScope.currentUser = user;
         }
 
-        function getCurrentUser () {
-            return $rootScope.currentUser;
+        function getCurrentUser (callback) {
+            callback($rootScope.currentUser);
         }
 
         function findUserByUsername (username) {
@@ -46,42 +46,48 @@
             return null;
         }
 
-        function findUserByCredentials(credentials) {
+        function findUserByCredentials(credentials, callback) {
             for (var u in model.users) {
                 if (model.users[u].username === credentials.username &&
                     model.users[u].password === credentials.password) {
-                    return model.users[u];
+                    callback(model.users[u]);
                 }
             }
-            return null;
+            callback(null);
         }
 
         function findAllUsers(callback) {
-            return callback(model.users);
+            callback(model.users);
         }
 
-        function createUser (user) {
+        function createUser (user, callback) {
             var user = {
                 username: user.username,
-                password: user.password
+                password: user.password,
+                email: user.email,
+                _id: (new Date).getTime()
             };
             model.users.push(user);
-            return user;
+            console.info(model.users)
+            callback(user);
         }
 
         function deleteUserById(userId) {
-
+            var index = $scope.users.indexOf(userId);
+            $scope.users.splice(index, 1);
         }
 
-        function updateUser (currentUser) {
-            var user = model.findUserByUsername (currentUser.username);
+        function updateUser (userId, currentUser, callback) {
+            var user = model.findUserById(userId);
             if (user != null) {
+                user.username = currentUser.username;
+                user.password = currentUser.password;
                 user.firstName = currentUser.firstName;
                 user.lastName = currentUser.lastName;
-                user.password = currentUser.password;
-                return user;
+                user.email = currentUser.email;
+                callback(user);
             } else {
-                return null;
+                callback(null);
             }
         }
 

@@ -1,20 +1,29 @@
 (function(){
-    angular.module("FormBuilderApp")
+    'use strict';
+
+    angular
+        .module("FormBuilderApp")
         .controller("ProfileController", ProfileController);
 
-    function ProfileController($rootScope, $scope, UserService){
+    function ProfileController($scope, UserService, $location) {
+        $scope.message = null;
 
-        if(!$rootScope.currentUser){
-            $rootScope.$location.url('/login')
+        if (!$scope.currentUser) {
+            $location.url("/home");
         }
 
-        $scope.update = update;
+        $scope.updateUser = updateUser;
 
-        function update() {
-            UserService.updateUser($scope.updates, callback);
-
+        function updateUser (user) {
+            $scope.message = null;
+            UserService.updateUser($scope.currentUser._id, user, callback);
             function callback(user){
-                $scope.message = "Updated."
+                if (user) {
+                    $scope.message = "User updated successfully";
+                    UserService.setCurrentUser(user);
+                } else {
+                    $scope.message = "Unable to update the user";
+                }
             }
         }
     }
