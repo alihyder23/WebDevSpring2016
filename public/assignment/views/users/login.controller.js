@@ -1,4 +1,6 @@
 (function(){
+    'use strict';
+
     angular
         .module("FormBuilderApp")
         .controller("LoginController", LoginController);
@@ -8,14 +10,16 @@
         $scope.login = login;
 
         function login (user) {
-            var user = UserService.findUserByCredentials({username: user.username, password: user.password});
-            if (user) {
-                $rootScope.currentUser = user;
-                UserService.setCurrentUser(user);
-                $location.url("/profile");
-            }
-            else {
-                $scope.message = "Invalid Username or Password"
+            UserService.findUserByCredentials({username: user.username, password: user.password}, callback);
+            function callback(user){
+                if (user) {
+                    $rootScope.currentUser = user;
+                    UserService.setCurrentUser(user, callback);
+                    $location.url("/profile");
+                }
+                else {
+                    $scope.message = "Invalid Username or Password"
+                }
             }
         }
     }
