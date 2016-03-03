@@ -1,0 +1,23 @@
+<h1>Login</h1>
+<hr/>
+<div ng-show="message" class="alert alert-danger" role="alert">{{message}}</div>
+<form>
+    <div class="form-group">
+        <label for="username" class="control-label">Username</label>
+        <div>
+            <input ng-model="user.username" type="text" class="form-control" id="username" placeholder="Username">
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="password" class="control-label">Password</label>
+        <div>
+            <input ng-model="user.password" type="password" class="form-control" id="Password"
+                   placeholder="Password">
+        </div>
+    </div>
+    <div>
+        <div>
+            <a ng-click="login(user)" class="btn btn-default btn-block" role="button">Login</a>
+        </div>
+    </div>
+</form>
