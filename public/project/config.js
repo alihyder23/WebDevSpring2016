@@ -35,6 +35,10 @@
                 templateUrl: "./views/team/team.view.html",
                 controller: "TeamController"
             })
+            .when("/fixtures", {
+                templateUrl: "./views/fixtures/fixtures.view.html",
+                controller: "FixturesController"
+            })
 
             .otherwise({
                 redirectTo: "/home"
