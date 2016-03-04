@@ -1,0 +1,21 @@
+<h1>Fixtures</h1>
+<hr/>
+<table class="table table-striped table-bordered">
+    <thead>
+    <tr>
+        <th>Matchday</th>
+        <th>Date</th>
+        <th>Result</th>
+        <th>Status</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr ng-repeat="fixture in fixtures">
+        <td>{{fixture.matchday}}</td>
+        <td>{{fixture.date}}</td>
+        <td>{{fixture.homeTeamName}} {{fixture.result.goalsHomeTeam}} - {{fixture.result.goalsAwayTeam}} {{fixture.awayTeamName}}</td>
+        <td>{{fixture.status}}</td>
+    </tr>
+    </tbody>
+</table>
+
