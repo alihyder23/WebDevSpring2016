@@ -27,6 +27,14 @@
                 templateUrl: "./views/forum/forum.view.html",
                 controller: "ForumController"
             })
+            .when("/news", {
+                templateUrl: "./views/news/news.view.html",
+                controller: "NewsController"
+            })
+            .when("/team", {
+                templateUrl: "./views/team/team.view.html",
+                controller: "TeamController"
+            })
 
             .otherwise({
                 redirectTo: "/home"
