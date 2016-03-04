@@ -3,13 +3,13 @@
 
     angular
         .module("Gunners")
-        .factory("ForumService", ForumService);
+        .factory("NewsService", NewsService);
 
-    function ForumService($rootScope) {
+    function NewsService($rootScope) {
         var model = {
             forms: [
-                {"_id": "000", "title": "ARSENAL WIN THE PREMIER LEAGUE", "date": (new Date).toDateString(), "author" : "Mesut Ozil", "userId": 234, "content" : "we won!"},
-                {"_id": "000", "title": "The Arsenal destroy Chelsea in the final game of the season", "date": (new Date).toDateString(), "author" : "Ali Hyder", "userId": 123, "content" : "we won!"},
+                {"_id": "000", "title": "Wenger thinks we can last pace", "date": (new Date).toDateString(), "author" : "Mesut Ozil", "userId": 234, "content" : "we won!"},
+                {"_id": "000", "title": "Ozil delighted with his form", "date": (new Date).toDateString(), "author" : "Ali Hyder", "userId": 123, "content" : "we won!"},
             ],
             createFormForUser: createFormForUser,
             findAllFormsForUser: findAllFormsForUser,
