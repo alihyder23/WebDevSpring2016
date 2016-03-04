@@ -23,7 +23,7 @@
             }).done(function(response) {
                 var data = angular.fromJson(response)
                 model.players = data.players;
-                console.log(model.players)
+                //console.log(model.players)
             });
         }
     }
