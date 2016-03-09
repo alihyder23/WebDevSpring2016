@@ -5,7 +5,7 @@
         .controller("FixturesController", FixturesController);
 
     function FixturesController($rootScope, $scope, FixturesService) {
-        $scope.fetchPlayers = fetchFixtures;
+        $scope.fetchFixtures = fetchFixtures;
 
         function init() {
             fetchFixtures();
