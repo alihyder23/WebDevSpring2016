@@ -19,9 +19,9 @@
                 headers: { 'X-Auth-Token': 'e7d0b480d8e64eb5828355511253d108' },
                 url: URL,
                 dataType: 'json',
-                type: 'GET',
+                type: 'GET'
             }).done(function(response) {
-                var data = angular.fromJson(response)
+                var data = angular.fromJson(response);
                 model.fixtures = data.fixtures;
                 //console.log(model.fixtures)
             });
