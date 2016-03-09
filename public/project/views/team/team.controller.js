@@ -13,7 +13,7 @@
         init();
 
         function fetchPlayers() {
-            TeamService.updatePlayers()
+            TeamService.updatePlayers();
             $scope.players = TeamService.players;
         }
     }
