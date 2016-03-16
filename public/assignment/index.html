@@ -12,7 +12,7 @@
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Custom styles for this assignment -->
-    <link href="csstyle.css" rel="stylesheet">
+    <link href="client/css/style.css" rel="stylesheet">
 
     <!-- Angular -->
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script>
@@ -21,19 +21,19 @@
     <script src="config.js"></script>
 
     <!-- Angular services -->
-    <script src="services/user.service.client.js"></script>
-    <script src="services/forms.service.client.js"></script>
+    <script src="client/services/user.service.client.js"></script>
+    <script src="client/services/forms.service.client.js"></script>
 
     <!-- Angular controllers -->
-    <script src="viewsain/main.controller.js"></script>
-    <script src="viewsdmin/admin.controller.js"></script>
-    <script src="viewsorms/forms.controller.js"></script>
-    <script src="viewsorms/fields.controller.js"></script>
-    <script src="viewseader/header.controller.js"></script>
-    <script src="viewsome/home.controller.js"></script>
-    <script src="viewssers/profile.controller.js"></script>
-    <script src="viewssers/register.controller.js"></script>
-    <script src="viewssers/login.controller.js"></script>
+    <script src="client/views/main/main.controller.js"></script>
+    <script src="client/views/admin/admin.controller.js"></script>
+    <script src="client/views/forms/forms.controller.js"></script>
+    <script src="client/views/home/home.controller.js"></script>
+    <script src="client/views/forms/fields.controller.js"></script>
+    <script src="client/views/header/header.controller.js"></script>
+    <script src="client/views/users/profile.controller.js"></script>
+    <script src="client/views/users/register.controller.js"></script>
+    <script src="client/views/users/login.controller.js"></script>
 
     <title>Form Builder</title>
     <style>
@@ -45,9 +45,9 @@
 
 <body>
 <div class="container" ng-controller="MainController">
-    <div ng-include="'views/header/header.view.html'"></div>
+    <div ng-include="'client/views/header/header.view.html'"></div>
     <div class="col-sm-3 col-md-2 sidebar">
-        <div ng-include="'views/sidebar/sidebar.view.html'"></div>
+        <div ng-include="'client/views/sidebar/sidebar.view.html'"></div>
     </div>
     <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
         <div ng-view class="mainView"></div>

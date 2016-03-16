@@ -1,22 +1,12 @@
 (function(){
+    'use strict';
+
     angular
         .module("FormBuilderApp")
         .factory("UserService", UserService);
 
-    function UserService($rootScope) {
+    function UserService($rootScope, $http) {
         var model = {
-            users: [
-                {	"_id":123, "firstName":"Alice",            "lastName":"Wonderland",
-                    "username":"alice",  "password":"alice",   "roles": ["student"]		},
-                {	"_id":234, "firstName":"Bob",              "lastName":"Hope",
-                    "username":"bob",    "password":"bob",     "roles": ["admin"]		},
-                {	"_id":345, "firstName":"Charlie",          "lastName":"Brown",
-                    "username":"charlie","password":"charlie", "roles": ["faculty"]		},
-                {	"_id":456, "firstName":"Dan",              "lastName":"Craig",
-                    "username":"dan",    "password":"dan",     "roles": ["faculty", "admin"]},
-                {	"_id":567, "firstName":"Edward",           "lastName":"Norton",
-                    "username":"ed",     "password":"ed",      "roles": ["student"]		}
-            ],
             setCurrentUser: setCurrentUser,
             getCurrentUser: getCurrentUser,
             findUserByCredentials: findUserByCredentials,
@@ -33,71 +23,36 @@
             $rootScope.currentUser = user;
         }
 
-        function getCurrentUser (callback) {
-            callback($rootScope.currentUser);
+        function getCurrentUser () {
+            return $rootScope.currentUser;
         }
 
-        function findUserByUsername (username) {
-            for (var u in model.users) {
-                if (model.users[u].username === username) {
-                    return model.users[u];
-                }
-            }
-            return null;
+        function findUserByUsername(username) {
+            return $http.get('/api/assignment/user?username='+username);
         }
 
         function findUserByCredentials(credentials, callback) {
-            for (var u in model.users) {
-                if (model.users[u].username === credentials.username &&
-                    model.users[u].password === credentials.password) {
-                    callback(model.users[u]);
-                }
-            }
-            callback(null);
+            return $http.get('/api/assignment/user?username='+username+'&password='+password);
         }
 
         function findAllUsers(callback) {
-            callback(model.users);
+            return $http.get('/api/assignment/user');
         }
 
         function createUser (user, callback) {
-            var user = {
-                username: user.username,
-                password: user.password,
-                email: user.email,
-                _id: (new Date).getTime()
-            };
-            model.users.push(user);
-            console.info(model.users)
-            callback(user);
+            return $http.post('/api/assignment/user', user);
         }
 
         function deleteUserById(userId) {
-            var index = $scope.users.indexOf(userId);
-            $scope.users.splice(index, 1);
+            return $http.delete('/api/assignment/user/'+userId);
         }
 
         function updateUser (userId, currentUser, callback) {
-            var user = model.findUserById(userId);
-            if (user != null) {
-                user.username = currentUser.username;
-                user.password = currentUser.password;
-                user.firstName = currentUser.firstName;
-                user.lastName = currentUser.lastName;
-                user.email = currentUser.email;
-                callback(user);
-            } else {
-                callback(null);
-            }
+            return $http.put('/api/assignment/user/'+userId, updates);
         }
 
         function findUserById (id) {
-            for (var u in model.users) {
-                if (model.users[u]._id === id) {
-                    return model.users[u];
-                }
-            }
-            return null;
+            return $http.get('/api/assignment/user/'+id);
         }
 
     }
