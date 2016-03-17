@@ -16,15 +16,15 @@
 
         function updateUser (user) {
             $scope.message = null;
-            UserService.updateUser($scope.currentUser._id, user, callback);
-            function callback(user){
-                if (user) {
+            UserService.updateUser($scope.currentUser._id, $scope.updates).then(function(res) {
+                UserService.setCurrentUser(res.data);
+                if (res.data) {
                     $scope.message = "User updated successfully";
-                    UserService.setCurrentUser(user);
+                    UserService.setCurrentUser(res.data);
                 } else {
                     $scope.message = "Unable to update the user";
                 }
-            }
+            });
         }
     }
 })();

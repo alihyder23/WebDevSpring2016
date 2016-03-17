@@ -92,14 +92,15 @@ module.exports = function() {
 
         var deferred = q.defer();
 
-        findUserById(userId).then(function(oldUser) {
-            oldUser.firstName = user.firstName;
-            oldUser.lastName = user.lastName;
-            oldUser.username = user.username;
-            oldUser.password = user.password;
-            oldUser.roles = user.roles;
+        findUserById(userId).then(function(resUser) {
+            resUser.firstName = user.firstName;
+            resUser.lastName = user.lastName;
+            resUser.username = user.username;
+            resUser.password = user.password;
+            resUser.roles = user.roles;
+            resUser.email = user.email;
 
-            deferred.resolve(oldUser);
+            deferred.resolve(resUser);
         });
 
         return deferred.promise;

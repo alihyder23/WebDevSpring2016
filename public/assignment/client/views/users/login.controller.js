@@ -5,22 +5,22 @@
         .module("FormBuilderApp")
         .controller("LoginController", LoginController);
 
-    function LoginController ($scope, UserService, $location, $rootScope) {
+    function LoginController ($scope, UserService, $rootScope) {
         $scope.message = null;
         $scope.login = login;
 
         function login (user) {
-            UserService.findUserByCredentials({username: user.username, password: user.password}, callback);
-            function callback(user){
+            UserService.findUserByCredentials(user.username, user.password).then(function(res) {
+                var user = res.data;
                 if (user) {
                     $rootScope.currentUser = user;
-                    UserService.setCurrentUser(user, callback);
+                    UserService.setCurrentUser(user);
                     $location.url("/profile");
                 }
                 else {
                     $scope.message = "Invalid Username or Password"
                 }
-            }
+            });
         }
     }
 })();
