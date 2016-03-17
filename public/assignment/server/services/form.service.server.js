@@ -1,6 +1,4 @@
-var model = require("../models/form.model.js")();
-
-module.exports = function (app) {
+module.exports = function (app, formModel) {
 
     app.post("/api/assignment/user/:userId/form/", addFormForUser);
     app.get("/api/assignment/user/:userId/form/", getAllFormsForUser);
@@ -11,34 +9,49 @@ module.exports = function (app) {
 
 
     function getAllForms(req, res) {
-        var userId = req.params.userId;
-        res.json(model.findAllForms());
+        formModel.findAllForms().then(function (forms) {
+            res.json(forms);
+        });
     }
 
     function getAllFormsForUser(req, res) {
         var userId = req.params.userId;
-        res.json(model.findAllFormsForUser(userId));
+
+        formModel.findAllFormsForUser(userId).then(function (forms) {
+            res.json(forms);
+        });
     }
 
     function addFormForUser(req, res) {
         var userId = req.params.userId;
         var form = req.body;
-        res.json(model.createFormForUser(userId, form));
+
+        formModel.createFormForUser(userId, form).then(function(form) {
+            res.json(form);
+        });
     }
 
     function getSingleForm(req, res) {
         var formId = req.params.formId;
-        res.json(model.findFormById(formId));
+
+        formModel.findFormById(formId).then(function(form) {
+            res.json(form);
+        });
     }
 
     function updateForm(req, res) {
         var formId = req.params.formId;
         var form = req.body;
-        res.json(model.updateForm(formId, form));
+
+        formModel.updateForm(formId, form).then(function(form) {
+            res.json(form);
+        });
     }
 
     function removeForm(req, res) {
         var formId = req.params.formId;
-        res.json(model.deleteForm(formId));
+        formModel.deleteForm(formId).then(function(form) {
+            res.json(form);
+        });
     }
 };

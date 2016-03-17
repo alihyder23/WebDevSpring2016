@@ -35,8 +35,8 @@
             var deferred = $q.defer();
             $http.delete("/api/assignment/form/" + formId+"/").success(function(response){
                 if (response) {
-                    $http.get("/api/assignment/form/").success(function (forms) {
-                        deferred.resolve(forms);
+                    $http.get("/api/assignment/form/").success(function (form) {
+                        deferred.resolve(form);
                     });
                 }
             });
