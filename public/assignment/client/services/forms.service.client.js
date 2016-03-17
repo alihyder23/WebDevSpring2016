@@ -5,56 +5,58 @@
         .module("FormBuilderApp")
         .factory("FormService", FormService);
 
-    function FormService($rootScope) {
-        var model = {
-            forms: [
-                {"_id": "000", "title": "Contacts", "userId": 123},
-                {"_id": "010", "title": "ToDo",     "userId": 123},
-                {"_id": "020", "title": "CDs",      "userId": 234},
-            ],
+    function FormService($rootScope, $q, $http) {
+        var service = {
             createFormForUser: createFormForUser,
             findAllFormsForUser: findAllFormsForUser,
             deleteFormById: deleteFormById,
-            updateFormById: updateFormById
+            updateFormById: updateFormById,
+            getFormById: getFormById
         };
-        return model;
+        return service;
 
-        function createFormForUser(userId, form, callback){
-            form._id = (new Date).getTime();
-            form.userId = userId;
-            model.forms.push(form);
-            callback(form);
+        function createFormForUser(userId, form){
+            var deferred = $q.defer();
+            $http.post("/api/assignment/user/"+ userId +"/form/", form).success(function(response){
+                deferred.resolve(response);
+            });
+            return deferred.promise;
         }
 
-        function findAllFormsForUser(userId, callback) {
-            var formsForUser = [];
-            for(var form in model.forms){
-                if(model.forms[form].userId === userId) {
-                    formsForUser.push(model.forms[form]);
-                }
-            }
-            callback(formsForUser);
+        function findAllFormsForUser(userId) {
+            var deferred = $q.defer();
+            $http.get("/api/assignment/user/"+ userId +"/form/").success(function(response){
+                deferred.resolve(response);
+            });
+            return deferred.promise;
         }
 
-        function deleteFormById(formId, callback) {
-            for(var f in model.forms) {
-                if(model.forms[f]._id === formId) {
-                    model.forms.splice(f, 1);
-                    callback(model.forms);
+        function deleteFormById(formId) {
+            var deferred = $q.defer();
+            $http.delete("/api/assignment/form/" + formId+"/").success(function(response){
+                if (response) {
+                    $http.get("/api/assignment/form/").success(function (forms) {
+                        deferred.resolve(forms);
+                    });
                 }
-            }
-            callback(null);
+            });
+            return deferred.promise;
         }
 
-        function updateFormById(formId, newForm, callback) {
-            for(var f in model.forms) {
-                if(model.forms[f]._id === formId) {
-                    var form = model.forms[f];
-                    form.userId = newForm.userId;
-                    form.title = newForm.title;
-                    callback(form);
-                }
-            }
+        function updateFormById(formId, newForm) {
+            var deferred = $q.defer();
+            $http.put("/api/assignment/form/" + formId+"/", form).success(function(response){
+                deferred.resolve(response);
+            });
+            return deferred.promise;
+        }
+
+        function getFormById(formId){
+            var deferred = $q.defer();
+            $http.get("/api/assignment/form/" + formId+"/").success(function(response){
+                deferred.resolve(response);
+            });
+            return deferred.promise;
         }
     }
 })();
