@@ -13,4 +13,7 @@ app.use(express.bodyParser());
 var userModel = require('./public/assignment/server/models/user.model.js')();
 require('./public/assignment/server/services/user.service.server.js')(app, userModel);
 
+var formModel = require('./public/assignment/server/models/form.model.js')();
+require('./public/assignment/server/services/form.service.server.js')(app, formModel);
+
 app.listen(port, ipaddress);
