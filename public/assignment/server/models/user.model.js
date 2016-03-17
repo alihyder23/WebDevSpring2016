@@ -22,6 +22,7 @@ module.exports = function() {
 
         user._id = (new Date()).getTime();
         mock.push(user);
+        console.log(mock)
         deferred.resolve(mock);
 
         return deferred.promise;

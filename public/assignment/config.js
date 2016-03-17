@@ -8,7 +8,7 @@
     function Configuration($routeProvider) {
         $routeProvider
             .when("/home", {
-                templateUrl: "./views/home/home.view.html",
+                templateUrl: "./client/views/home/home.view.html",
                 controller: "HomeController"
             })
             .when("/admin", {

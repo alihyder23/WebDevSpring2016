@@ -31,15 +31,15 @@
             return $http.get('/api/assignment/user?username='+username);
         }
 
-        function findUserByCredentials(credentials, callback) {
+        function findUserByCredentials(username, password) {
             return $http.get('/api/assignment/user?username='+username+'&password='+password);
         }
 
-        function findAllUsers(callback) {
+        function findAllUsers() {
             return $http.get('/api/assignment/user');
         }
 
-        function createUser (user, callback) {
+        function createUser (user) {
             return $http.post('/api/assignment/user', user);
         }
 
@@ -47,7 +47,7 @@
             return $http.delete('/api/assignment/user/'+userId);
         }
 
-        function updateUser (userId, currentUser, callback) {
+        function updateUser (userId, currentUser) {
             return $http.put('/api/assignment/user/'+userId, updates);
         }
 
