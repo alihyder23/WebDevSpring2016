@@ -5,7 +5,7 @@
 
     function FieldService($http, $q){
 
-        var model = {
+        var service = {
             createFieldForForm: createFieldForForm,
             getFieldsForForm: getFieldsForForm,
             getFieldForForm: getFieldForForm,
@@ -13,7 +13,7 @@
             updateField: updateField
         };
 
-        return model;
+        return service;
 
         function getFieldsForForm(formId){
             var deferred = $q.defer();

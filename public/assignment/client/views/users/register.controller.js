@@ -27,13 +27,6 @@
                 $scope.message = "Passwords must match";
                 return;
             }
-            UserService.findUserByUsername(user.username).then(function(res) {
-                if (res.data != null) {
-                    $scope.message = "User already exists";
-                    return;
-                }
-            });
-
 
             UserService.createUser(user).then(function(res) {
                 UserService.setCurrentUser(user);
