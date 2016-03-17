@@ -1,53 +1,165 @@
-module.exports = function (app, formModel) {
+var q = require("q");
+var uuid = require('node-uuid');
+var formsMock = require("./form.mock.json");
 
-    app.post("/api/assignment/user/:userId/form", addFormForUser);
-    app.get("/api/assignment/user/:userId/form", getAllFormsForUser);
-    app.get("/api/assignment/form", getAllForms);
-    app.get("/api/assignment/form/:formId", getSingleForm);
-    app.put("/api/assignment/form/:formId", updateForm);
-    app.delete("/api/assignment/form/:formId", removeForm);
+module.exports = function(mongoose) {
+    //var FormSchema = require("./form.server.schema.js")(mongoose);
+    //var FormModel = mongoose.model("FormModel", FormSchema);
+    var api = {
+        createForm: createForm,
+        findAllForms: findAllForms,
+        updateForm: updateForm,
+        deleteForm: deleteForm,
+        findFormById: findFormById,
+        findFormByTitle: findFormByTitle,
 
+        findAllFormsForUser: findAllFormsForUser,
+        createFormForUser: createFormForUser,
 
-    function getAllForms(req, res) {
-        var userId = req.params.userId;
+        findAllFieldsForForm: findAllFieldsForForm,
+        findFieldForForm: findFieldForForm,
+        deleteField: deleteField,
+        createField: createField,
+        updateField: updateField
+    };
+    return api;
 
-        formModel.findAllForms().then(function(forms) {
-            res.json(forms);
-        })
+    function createForm(form) {
+        form._id = uuid.v4();
+        formsMock.push(form);
+        return form;
     }
 
-    function getAllFormsForUser(req, res) {
-        var userId = req.params.userId;
-        formModel.findAllFormsforUser(userId).then(function(forms) {
-            res.json(forms);
-        });
+    function createFormForUser(userId, form) {
 
+        var newForm = {
+            _id: uuid.v4(),
+            userId: userId,
+            title: form.title,
+            fields: form.fields
+        };
+        formsMock.push(newForm);
+        return newForm;
     }
 
-    function addFormForUser(req, res) {
-        var userId = req.params.userId;
-        formModel.createFormForUser(userId).then(function(form) {
-            res.json(form);
-        });
+    function findFormById(formId) {
+        for (var i =0; i < formsMock.length; i++) {
+            if (formsMock[i]._id === formId) {
+                return formsMock[i];
+            }
+        }
+        return null;
     }
 
-    function getSingleForm(req, res) {
-        var formId = req.params.formId;
-        formModel.findFormById(formId).then(function(form) {
-            res.json(form);
-        });
+    function findAllForms() {
+        var forms = [];
+        for (var i =0; i < formsMock.length; i++) {
+            forms.push(formsMock[i])
+        }
+        return forms;
     }
 
-    function updateForm(req, res) {
-        var formId = req.params.formId;
-        var form = req.body;
-        formModel.updateForm(formId, form)
+    function findAllFormsForUser(userId) {
+        var forms = [];
+        for (var i =0; i < formsMock.length; i++) {
+            if(formsMock[i].userId == userId) {
+                forms.push(formsMock[i])
+            }
+        }
+        return forms;
     }
 
-    function removeForm(req, res) {
-        var formId = req.params.formId;
-        formModel.deleteForm(id).then(function(forms) {
-            res.json(forms);
-        });
+    function updateForm(formId, form) {
+        for (var i =0; i < formsMock.length; i++) {
+            if (formsMock[i]._id === formId) {
+                formsMock[i].title = form.title;
+                formsMock[i].userId = form.userId;
+                formsMock[i].fields = form.fields;
+            }
+        }
+    }
+
+    function deleteForm(formId) {
+        for (var i =0; i < formsMock.length; i++) {
+            if (formsMock[i]._id === formId) {
+                return formsMock.splice(i,1);
+            }
+        }
+        return null;
+    }
+
+
+    function findFormByTitle(title) {
+        for (var i =0; i < formsMock.length; i++) {
+            if (formsMock[i].title === title) {
+                return formsMock[i];
+            }
+        }
+        return null;
+    }
+
+    function findAllFieldsForForm(formId){
+        for (var i =0; i < formsMock.length; i++) {
+            if (formsMock[i]._id === formId) {
+                return formsMock[i].fields;
+            }
+        }
+        return null;
+    }
+
+    function findFieldForForm(formId, fieldId){
+        for (var i =0; i < formsMock.length; i++)  {
+            if (formsMock[i]._id === formId) {
+                for (var j =0; j < formsMock[i].fields.length; j++)
+                {
+                    if (formsMock[i].fields[j] === fieldId) {
+                        return formsMock[i].fields[j];
+                    }
+                }
+            }
+        }
+        return null;
+    }
+
+    function deleteField(formId) {
+        for (var i =0; i < formsMock.length; i++)  {
+            if (formsMock[i]._id === formId) {
+                for (var j =0; j < formsMock[i].fields.length; j++)
+                {
+                    if (formsMock[i].fields[j] === fieldId) {
+                        return formsMock[i].fields.splice(j,1);
+                    }
+                }
+            }
+        }
+        return null;
+    }
+
+    function createField(formId, field) {
+        for (var i =0; i < formsMock.length; i++)  {
+            if (formsMock[i]._id === formId) {
+                field._id = uuid.v4();
+                formsMock[i].fields.push(field);
+                return field;
+            }
+        }
+        return null;
+    }
+
+    function updateField(formId, fieldId, field) {
+        for (var i =0; i < formsMock.length; i++)  {
+            if (formsMock[i]._id === formId) {
+                for (var j =0; j < formsMock[i].fields.length; j++)
+                {
+                    if (formsMock[i].fields[j] === fieldId) {
+                        formsMock[i].fields[j].label = field.label;
+                        formsMock[i].fields[j].type = field.type;
+                        formsMock[i].fields[j].placeholder = field.placeholder;
+                        formsMock[i].fields[j].options = field.options;
+                    }
+                }
+            }
+        }
+        return form;
     }
 };
