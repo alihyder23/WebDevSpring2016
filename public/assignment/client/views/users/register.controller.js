@@ -5,7 +5,7 @@
         .module("FormBuilderApp")
         .controller("RegisterController", RegisterController);
 
-    function RegisterController($location, $scope, UserService, $rootScope) {
+    function RegisterController($location, $scope, UserService) {
         $scope.message = null;
         $scope.register = register;
 
@@ -27,17 +27,18 @@
                 $scope.message = "Passwords must match";
                 return;
             }
-            var user = UserService.findUserByUsername(user.username);
-            if (user != null) {
-                $scope.message = "User already exists";
-                return;
-            }
+            UserService.findUserByUsername(user.username).then(function(res) {
+                if (res.data != null) {
+                    $scope.message = "User already exists";
+                    return;
+                }
+            });
 
-            UserService.createUser(user, callback);
-            function callback(user) {
+
+            UserService.createUser(user).then(function(res) {
                 UserService.setCurrentUser(user);
                 $location.url("/profile");
-            }
+            });
 
         }
     }
