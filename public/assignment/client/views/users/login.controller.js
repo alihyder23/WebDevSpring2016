@@ -1,25 +1,36 @@
-(function(){
-    'use strict';
-
+(function() {
+    "use strict";
     angular
-        .module("FormBuilderApp")
+        .module('FormBuilderApp')
         .controller("LoginController", LoginController);
 
-    function LoginController ($scope, UserService, $rootScope, $location) {
-        $scope.message = null;
-        $scope.login = login;
+    function LoginController($scope, $rootScope, UserService) {
 
-        function login (user) {
-            UserService.findUserByCredentials(user.username, user.password).then(function(res) {
-                if (res) {
-                    $rootScope.currentUser = res;
-                    UserService.setCurrentUser(res);
-                    $location.url("/profile");
+        $scope.login = function() {
+            UserService.findUserByUsernameAndPassword($scope.username, $scope.password).then(
+                function(response) {
+                    var user = response.data;
+                    if (user === null) {
+                        $scope.error = "Invalid username and password combination!";
+                    } else {
+                        $rootScope.loggedIn = true;
+                        $rootScope.user = user;
+                        for (var i in user.roles) {
+                            if (user.roles[i] === "admin") {
+                                $rootScope.isAdmin = true;
+                            }
+                        }
+                        $scope.$location.url("/profile");
+                    }
+                },
+                function(error) {
+                    $scope.error = "Something went wrong when trying to process your request.";
+                    console.log(error);
                 }
-                else {
-                    $scope.message = "Invalid Username or Password"
-                }
-            });
-        }
+            );
+
+        };
+
     }
 })();
+

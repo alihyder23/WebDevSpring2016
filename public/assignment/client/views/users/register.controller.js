@@ -1,38 +1,52 @@
-(function(){
-    'use strict';
-
+(function() {
+    "use strict";
     angular
-        .module("FormBuilderApp")
+        .module('FormBuilderApp')
         .controller("RegisterController", RegisterController);
 
-    function RegisterController($location, $scope, UserService) {
-        $scope.message = null;
-        $scope.register = register;
+    function RegisterController($scope, $rootScope, UserService) {
 
-        function register(user) {
-            $scope.message = null;
-            if (user == null) {
-                $scope.message = "Please fill in the required fields";
-                return;
-            }
-            if (!user.username) {
-                $scope.message = "Please provide a username";
-                return;
-            }
-            if (!user.password || !user.password2) {
-                $scope.message = "Please provide a password";
-                return;
-            }
-            if (user.password != user.password2) {
-                $scope.message = "Passwords must match";
-                return;
-            }
+        $scope.register = function() {
+            var user = {};
 
-            UserService.createUser(user).then(function(res) {
-                UserService.setCurrentUser(user);
-                $location.url("/profile");
-            });
+            user.firstName = "";
+            user.lastName = "";
+            user.username = $scope.username;
+            user.password = $scope.password;
+            user.roles = ["student"];
+            user.email = $scope.email;
 
+            if ($scope.username === undefined || $scope.password === undefined || $scope.email === undefined) {
+                $scope.error = "Please fill in all fields!";
+            }
+            else if ($scope.password !== $scope.password2) {
+                $scope.error = "Passwords do not match!";
+            } else {
+                // Check for existing user + email, if none exists we create a new one
+                UserService.findUserByUsername(user.username).then(
+                    function(response) {
+                        var foundUser = response.data;
+                        if (foundUser === null) {
+                            UserService.createUser(user).then(
+                                function(response) {
+                                    $rootScope.user = response.data;
+                                    $rootScope.loggedIn = true;
+                                    $scope.$location.path("/profile");
+                                },
+                                function(error) {
+                                    console.log(error);
+                                }
+                            );
+                        } else {
+                            $scope.error = "Username already exists!";
+                        }
+                    },
+                    function(error) {
+                        console.log(error);
+                    }
+                );
+            }
         }
     }
 })();
+

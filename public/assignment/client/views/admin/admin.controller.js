@@ -1,11 +1,13 @@
-(function(){
-    'use strict';
-
+(function() {
+    "use strict";
     angular
-        .module("FormBuilderApp")
+        .module('FormBuilderApp')
         .controller("AdminController", AdminController);
 
-    function AdminController($scope) {
-
+    function AdminController($rootScope) {
+        if(!$rootScope.loggedIn){
+            $scope.$location.url('/login');
+        }
     }
 })();
+

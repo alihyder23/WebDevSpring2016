@@ -1,76 +1,60 @@
-module.exports = function(app, userModel) {
+module.exports = function(app, UserModel) {
+    "use strict";
 
     app.post('/api/assignment/user', createUser);
-    app.get('/api/assignment/user', findUser);
+    app.get('/api/assignment/user', findUsers);
     app.get('/api/assignment/user/:id', findUserById);
     app.put('/api/assignment/user/:id', updateUser);
     app.delete('/api/assignment/user/:id', deleteUser);
 
     function createUser(req, res) {
-
-        var user = req.body;
-
-        userModel.createUser(user).then(function (users) {
-            res.json(users);
-        });
-
+        var newUser = UserModel.createUser(req.body);
+        res.json(newUser);
     }
 
-    function findUser(req, res) {
-
-        var username = req.query.username;
-        var password = req.query.password;
-
-        if (username && password) {
-
-            userModel.findUserByCredentials(username, password).then(function (user) {
-                res.json(user);
-            });
-
-        } else if (username) {
-
-            userModel.findUserByUsername(username).then(function (user) {
-                res.json(user);
-            });
-
+    function findUsers(req, res) {
+        if (req.query.username) {
+            if (req.query.password) {
+                findUserByCredentials(req, res);
+            } else {
+                findUserByUsername(req, res);
+            }
         } else {
-
-            userModel.findAllUsers().then(function (users) {
-                res.json(users);
-            });
-
+            var users = UserModel.findAllUsers();
+            res.json(users);
         }
-
     }
 
     function findUserById(req, res) {
-
         var userId = parseInt(req.params.id);
+        var user = UserModel.findUserById(userId);
+        res.json(user);
+    }
 
-        userModel.findUserById(userId).then(function (user) {
-            res.json(user);
-        });
+    function findUserByUsername(req, res) {
+        var username = req.query.username;
+        var user = UserModel.findUserByUsername(username);
+        res.json(user);
+    }
 
+    function findUserByCredentials(req, res) {
+        var credentials = {
+            username: req.query.username,
+            password: req.query.password
+        };
+        var user = UserModel.findUserByCredentials(credentials);
+        res.json(user);
     }
 
     function updateUser(req, res) {
-
         var userId = parseInt(req.params.id);
-        var user = req.body;
-
-        userModel.updateUser(userId, user).then(function (updatedUser) {
-            res.json(updatedUser);
-        });
-
+        var newUser = UserModel.updateUser(userId, req.body);
+        res.json(newUser);
     }
 
     function deleteUser(req, res) {
-
         var userId = parseInt(req.params.id);
-
-        userModel.deleteUser(userId).then(function (users) {
-            res.json(users);
-        })
-
+        UserModel.deleteUser(userId);
+        res.send(200);
     }
 };

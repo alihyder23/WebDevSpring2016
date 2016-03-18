@@ -1,72 +1,65 @@
-<!DOCTYPE html>
-<html lang="en" ng-app="FormBuilderApp">
+<html ng-app="FormBuilderApp">
 <head>
     <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <!-- Bootstrap core CSS -->
+    <!-- Bootstrap Core CSS -->
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.11.3/themes/smoothness/jquery-ui.css">
 
-    <!-- Custom styles for this assignment -->
-    <link href="css/style.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="css/dashboard.css" rel="stylesheet">
+    <link href="css/styles.css" rel="stylesheet">
 
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+<style>
+    a {
+        cursor: pointer;
+    }
+</style>
+
+<body ng-controller="MainController">
+
+    <ng-include src="'views/header/header.view.html'"></ng-include>
+    <ng-include src="'views/sidebar/sidebar.view.html'"></ng-include>
+    <div ng-view></div>
+
+    <!-- jQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script   src="https://code.jquery.com/ui/1.11.3/jquery-ui.min.js"></script>
+    <!-- Bootstrap -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
     <!-- Angular -->
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular-route.js"></script>
+
+    <!-- Main Module -->
     <script src="app.js"></script>
+    <!-- Routing Config -->
     <script src="config.js"></script>
 
-    <!-- Angular services -->
+    <!-- Services -->
     <script src="services/user.service.client.js"></script>
-    <script src="services/form.service.client.js"></script>
-    <script src="services/field.service.client.js"></script>
+    <script src="services/forms.service.client.js"></script>
+    <script src="services/fields.service.client.js"></script>
 
-    <!-- Angular controllers -->
+    <!-- Controllers -->
     <script src="views/main/main.controller.js"></script>
     <script src="views/admin/admin.controller.js"></script>
-    <script src="views/forms/forms.controller.js"></script>
-    <script src="views/home/home.controller.js"></script>
     <script src="views/forms/fields.controller.js"></script>
+    <script src="views/forms/forms.controller.js"></script>
     <script src="views/header/header.controller.js"></script>
-    <script src="views/users/profile.controller.js"></script>
+    <script src="views/home/home.controller.js"></script>
+    <script src="views/sidebar/sidebar.controller.js"></script>
     <script src="views/users/register.controller.js"></script>
     <script src="views/users/login.controller.js"></script>
-
-    <!--<script src="server/services/user.service.server.js"></script>-->
-    <!--<script src="server/services/form.service.server.js"></script>-->
-    <!--<script src="server/services/field.service.server.js"></script>-->
-
-    <title>Form Builder</title>
-    <style>
-        a {
-            cursor: pointer;
-        }
-    </style>
-</head>
-
-<body>
-<div class="container" ng-controller="MainController">
-    <div ng-include="'views/header/header.view.html'"></div>
-    <div class="col-sm-3 col-md-2 sidebar">
-        <div ng-include="'views/sidebar/sidebar.view.html'"></div>
-    </div>
-    <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-        <div ng-view class="mainView"></div>
-    </div>
-</div>
-</body>
-
-
-
-<!-- Bootstrap core JavaScript
-================================================== -->
-<!-- Placed at the end of the document so the pages load faster -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-<script>window.jQuery || document.write('<script src="../assets/js/vendor/jquery.min.js"><\/script>')</script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+    <script src="views/users/profile.controller.js"></script>
 </body>
 </html>

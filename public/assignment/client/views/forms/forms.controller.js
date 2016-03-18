@@ -1,61 +1,82 @@
-(function(){
-    'use strict';
-
-    angular.module("FormBuilderApp")
+(function() {
+    "use strict";
+    angular
+        .module('FormBuilderApp')
         .controller("FormsController", FormsController);
 
-    function FormsController($rootScope, $scope, FormService, $location){
-
-        if(!$rootScope.currentUser){
-            $location.url('/login')
+    function FormsController($rootScope, $scope, FormService) {
+        if(!$rootScope.loggedIn){
+            $scope.$location.url('/login');
         }
 
-        FormService.findAllFormsForUser($rootScope.currentUser._id).then(function(res){
-            $scope.forms = res;
-        });
+        FormService.findAllFormsForUser($scope.user._id).then(
+            function(res) {
+                $scope.forms = res.data;
+            },
+            function(error) {
+                console.log(error);
+            }
+        );
 
-        $scope.addForm = addForm;
-        $scope.updateForm = updateForm;
-        $scope.deleteForm = deleteForm;
-        $scope.selectForm = selectForm;
+        $scope.currentSelection = null;
 
-        function addForm() {
-            FormService.createFormForUser($rootScope.currentUser._id, {title: $scope.formTitle}).then(function
-                 (res) {
-                $scope.formTitle = null;
-                FormService.findAllFormsForUser($rootScope.currentUser._id).then(function(res){
-                    $scope.forms = res;
-                });
-            });
-        }
+        $scope.addForm = function() {
+            if ($scope.formTitle === undefined) return;
 
-        function updateForm() {
-            $scope.selectedForm.title = $scope.formTitle;
+            var form = {
+                title: $scope.formTitle
+            };
+            FormService.createFormForUser($scope.user._id, form).then(
+                function(res) {
+                    $scope.forms.push(res.data);
+                },
+                function(error) {
+                    console.log(error);
+                }
+            )
+        };
 
-            FormService.updateFormById($scope.selectedForm._id, $scope.selectedForm).then(function (res) {
-                $scope.selectedForm = null;
-                $scope.formTitle = null;
-                FormService.findAllFormsForUser($rootScope.currentUser._id).then(function (res) {
-                    $scope.forms = res;
-                });
-            });
-        }
+        $scope.updateForm = function() {
+            if ($scope.currentSelection === null || $scope.formTitle === undefined) return;
+            var formId = $scope.forms[$scope.currentSelection]._id;
+            var form = {
+                _id: formId,
+                title: $scope.formTitle,
+                userId: $scope.user._id
+            };
 
-        function deleteForm(id) {
-            FormService.deleteFormById(id).then(function(res){
-                $scope.selectedForm = null;
-                $scope.formTitle = null;
-                FormService.findAllFormsForUser($rootScope.currentUser._id).then(function (res) {
-                    $scope.forms = res;
-                });
-            });
-        }
+            FormService.updateFormById(formId, form).then(
+                function(res) {
+                    $scope.forms[$scope.currentSelection] = res.data;
+                },
+                function(error) {
+                    console.log(error);
+                }
+            );
+        };
 
-        function selectForm(id) {
-            FormService.getFormById(id).then(function(res){
-                $scope.selectedForm = res;
-                $scope.formTitle = $scope.selectedForm.title;
-            });
-        }
+        $scope.deleteForm = function(idx) {
+            FormService.deleteFormById($scope.forms[idx]._id).then(
+                function() {
+                    FormService.findAllFormsForUser($scope.user._id).then(
+                        function(res) {
+                            $scope.forms = res.data;
+                        },
+                        function(error) {
+                            console.log(error);
+                        }
+                    );
+                },
+                function(error) {
+                    console.log(error);
+                }
+            );
+        };
+
+        $scope.selectForm = function(idx) {
+            $scope.currentSelection = idx;
+            $scope.formTitle = $scope.forms[idx].title;
+        };
     }
 })();
+

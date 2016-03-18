@@ -1,9 +1,7 @@
 var mock = require("./user.mock.json");
 
-var q = require("q");
-
 module.exports = function() {
-
+    "use strict";
     var api = {
         createUser: createUser,
         findAllUsers: findAllUsers,
@@ -13,115 +11,63 @@ module.exports = function() {
         updateUser: updateUser,
         deleteUser: deleteUser
     };
-
     return api;
 
     function createUser(user) {
-
-        var deferred = q.defer();
-
-        user._id = (new Date()).getTime();
+        user._id = (new Date).getTime();
         mock.push(user);
-        console.log(mock)
-        deferred.resolve(mock);
-
-        return deferred.promise;
+        return user;
     }
 
     function findAllUsers() {
-
-        var deferred = q.defer();
-
-        deferred.resolve(mock);
-
-        return deferred.promise;
+        return mock;
     }
 
     function findUserById(userId) {
-
-        var deferred = q.defer();
-
-        var user = null;
-
-        for(var u in mock) {
-            if (mock[u]._id === userId) {
-                user = mock[u];
+        for (var i in mock) {
+            if (mock[i]._id === userId) {
+                return mock[i];
             }
         }
-
-        deferred.resolve(user);
-
-        return deferred.promise;
+        return null;
     }
 
     function findUserByUsername(username) {
-
-        var deferred = q.defer();
-
-        var user = null;
-
-        for(var u in mock) {
-            if (mock[u].username === username) {
-                user = mock[u];
+        for (var i in mock) {
+            if (mock[i].username === username) {
+                return mock[i];
             }
         }
-
-        deferred.resolve(user);
-
-        return deferred.promise;
+        return null;
     }
 
-    function findUserByCredentials(username, password) {
-
-        var deferred = q.defer();
-
-        var user = null;
-
-        for(var u in mock) {
-            if (mock[u].username === username &&
-                mock[u].password === password) {
-                user = mock[u];
+    function findUserByCredentials(credentials) {
+        for (var i in mock) {
+            if (mock[i].username === credentials.username &&
+                mock[i].password === credentials.password) {
+                return mock[i];
             }
         }
-
-        deferred.resolve(user);
-
-        return deferred.promise;
+        return null;
     }
 
     function updateUser(userId, user) {
-
-        var deferred = q.defer();
-
-        findUserById(userId).then(function(resUser) {
-            resUser.firstName = user.firstName;
-            resUser.lastName = user.lastName;
-            resUser.username = user.username;
-            resUser.password = user.password;
-            resUser.roles = user.roles;
-            resUser.email = user.email;
-
-            deferred.resolve(resUser);
-        });
-
-        return deferred.promise;
+        for (var i in mock) {
+            if (mock[i]._id === userId) {
+                mock[i] = user;
+                return mock[i];
+            }
+        }
+        return null;
     }
 
     function deleteUser(userId) {
-
-        var deferred = q.defer();
-
-        for(var u in mock) {
-            if(mock[u]._id === userId) {
-                mock.splice(u, 1);
-                break;
+        var newUsers = [];
+        for (var i in mock) {
+            if (mock[i]._id !== userId) {
+                newUsers.push(mock[i]);
             }
         }
-
-        deferred.resolve(mock);
-
-        return deferred.promise;
-
+        mock = newUsers;
     }
-
 };

@@ -1,11 +1,11 @@
-(function(){
-    'use strict';
-
+(function() {
+    "use strict";
     angular
-        .module("FormBuilderApp")
+        .module('FormBuilderApp')
         .controller("HomeController", HomeController);
 
     function HomeController($scope) {
 
     }
 })();
+
