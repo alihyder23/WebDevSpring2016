@@ -17,10 +17,10 @@
             user.email = $scope.email;
 
             if ($scope.username === undefined || $scope.password === undefined || $scope.email === undefined) {
-                $scope.error = "Please fill in all fields!";
+                $scope.error = "Please fill in the required fields";
             }
             else if ($scope.password !== $scope.password2) {
-                $scope.error = "Passwords do not match!";
+                $scope.error = "Passwords must match";
             } else {
                 // Check for existing user + email, if none exists we create a new one
                 UserService.findUserByUsername(user.username).then(
@@ -38,7 +38,7 @@
                                 }
                             );
                         } else {
-                            $scope.error = "Username already exists!";
+                            $scope.error = "Useralready exists";
                         }
                     },
                     function(error) {

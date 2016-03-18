@@ -11,7 +11,7 @@
                 function(response) {
                     var user = response.data;
                     if (user === null) {
-                        $scope.error = "Invalid username and password combination!";
+                        $scope.error = "Invalid Username or Password";
                     } else {
                         $rootScope.loggedIn = true;
                         $rootScope.user = user;
@@ -22,10 +22,6 @@
                         }
                         $scope.$location.url("/profile");
                     }
-                },
-                function(error) {
-                    $scope.error = "Something went wrong when trying to process your request.";
-                    console.log(error);
                 }
             );
 
