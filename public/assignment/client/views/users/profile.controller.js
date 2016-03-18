@@ -1,37 +1,26 @@
-(function(){
-    'use strict';
-
+(function() {
+    "use strict";
     angular
-        .module("FormBuilderApp")
+        .module('FormBuilderApp')
         .controller("ProfileController", ProfileController);
 
-    function ProfileController($scope, UserService, $location, $rootScope) {
-        $scope.message = null;
-
-        if (!$scope.currentUser) {
-            $location.url("/home");
+    function ProfileController($scope, $rootScope, UserService) {
+        if(!$rootScope.loggedIn){
+            $scope.$location.url('/login');
         }
-
-        $scope.updates = {
-            username: $rootScope.currentUser.username,
-            password: $rootScope.currentUser.password,
-            firstName: $rootScope.currentUser.firstName,
-            lastName: $rootScope.currentUser.lastName,
-            email: $rootScope.currentUser.email
-        };
-
-        $scope.updateUser = updateUser;
-
-        function updateUser (user) {
-            $scope.message = null;
-            UserService.updateUser($scope.currentUser._id, $scope.updates).then(function(res) {
-                if (res) {
-                    $scope.message = "User updated successfully";
-                    UserService.setCurrentUser(res);
-                } else {
-                    $scope.message = "Unable to update the user";
+        $scope.oldUser = {};
+        angular.copy($rootScope.user, $scope.oldUser);
+        $scope.updateProfile = function() {
+            UserService.updateUser($scope.oldUser._id, $scope.oldUser).then(
+                function(response) {
+                    $rootScope.user = response.data;
+                    $scope.$location.url("/profile");
+                },
+                function(error) {
+                    console.log(error);
                 }
-            });
+            );
         }
     }
 })();
+
