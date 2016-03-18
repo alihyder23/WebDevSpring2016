@@ -4,7 +4,7 @@
         .module('FormBuilderApp')
         .controller("AdminController", AdminController);
 
-    function AdminController($rootScope) {
+    function AdminController($rootScope, $scope) {
         if(!$rootScope.loggedIn){
             $scope.$location.url('/login');
         }
