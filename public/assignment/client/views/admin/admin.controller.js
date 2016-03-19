@@ -5,8 +5,8 @@
         .controller("AdminController", AdminController);
 
     function AdminController($rootScope, $scope) {
-        if(!$rootScope.loggedIn){
-            $scope.$location.url('/login');
+        if(!$rootScope.isAdmin){
+            $scope.$location.url('/home');
         }
     }
 })();
