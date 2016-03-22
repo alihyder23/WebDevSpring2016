@@ -8,8 +8,7 @@
         if(!$rootScope.loggedIn){
             $scope.$location.url('/login');
         }
-        $scope.oldUser = {};
-        angular.copy($rootScope.user, $scope.oldUser);
+        $scope.oldUser = $rootScope.user;
         $scope.updateProfile = function() {
             UserService.updateUser($scope.oldUser._id, $scope.oldUser).then(
                 function(response) {

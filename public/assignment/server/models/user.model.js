@@ -1,4 +1,5 @@
 var mock = require("./user.mock.json");
+var q = require("q");
 
 module.exports = function() {
     "use strict";
@@ -14,49 +15,65 @@ module.exports = function() {
     return api;
 
     function createUser(user) {
-        user._id = (new Date).getTime();
+        var deferred = q.defer();
 
+        user._id = (new Date()).getTime();
         mock.push(user);
-        return user;
+        deferred.resolve(user);
+
+        return deferred.promise;
     }
 
     function findAllUsers() {
-        return mock;
+        var deferred = q.defer();
+        deferred.resolve(mock);
+        return deferred.promise;
     }
 
     function findUserById(userId) {
+        var deferred = q.defer();
         for (var i in mock) {
             if (mock[i]._id === userId) {
-                return mock[i];
+                deferred.resolve(mock[i]);
+                return deferred.promise;
             }
         }
         return null;
     }
 
     function findUserByUsername(username) {
+        var deferred = q.defer();
+
         for (var i in mock) {
             if (mock[i].username === username) {
-                return mock[i];
+                deferred.resolve(mock[i]);
+                return deferred.promise;
             }
         }
         return null;
     }
 
     function findUserByCredentials(credentials) {
+        var deferred = q.defer();
+
         for (var i in mock) {
             if (mock[i].username === credentials.username &&
                 mock[i].password === credentials.password) {
-                return mock[i];
+                deferred.resolve(mock[i]);
+                return deferred.promise;
             }
         }
         return null;
     }
 
     function updateUser(userId, user) {
+        var deferred = q.defer();
+
         for (var i in mock) {
             if (mock[i]._id === userId) {
                 mock[i] = user;
-                return mock[i];
+                deferred.resolve(mock[i]);
+                return deferred.promise;
             }
         }
         return null;

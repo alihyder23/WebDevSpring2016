@@ -8,8 +8,9 @@ module.exports = function(app, UserModel) {
     app.delete('/api/assignment/user/:id', deleteUser);
 
     function createUser(req, res) {
-        var newUser = UserModel.createUser(req.body);
-        res.json(newUser);
+        UserModel.createUser(req.body).then(function(response) {
+            res.json(response);
+        });
     }
 
     function findUsers(req, res) {
@@ -20,21 +21,24 @@ module.exports = function(app, UserModel) {
                 findUserByUsername(req, res);
             }
         } else {
-            var users = UserModel.findAllUsers();
-            res.json(users);
+            UserModel.findAllUsers().then(function(response) {
+                res.json(response);
+            });
         }
     }
 
     function findUserById(req, res) {
         var userId = parseInt(req.params.id);
-        var user = UserModel.findUserById(userId);
-        res.json(user);
+        UserModel.findUserById(userId).then(function(response) {
+            res.json(response);
+        });
     }
 
     function findUserByUsername(req, res) {
         var username = req.query.username;
-        var user = UserModel.findUserByUsername(username);
-        res.json(user);
+        UserModel.findUserByUsername(username).then(function(response) {
+            res.json(response);
+        });
     }
 
     function findUserByCredentials(req, res) {
@@ -42,19 +46,21 @@ module.exports = function(app, UserModel) {
             username: req.query.username,
             password: req.query.password
         };
-        var user = UserModel.findUserByCredentials(credentials);
-        res.json(user);
+        UserModel.findUserByCredentials(credentials).then(function(response) {
+            res.json(response);
+        });
     }
 
     function updateUser(req, res) {
         var userId = parseInt(req.params.id);
-        var newUser = UserModel.updateUser(userId, req.body);
-        res.json(newUser);
+        UserModel.updateUser(userId, req.body).then(function(response) {
+            res.json(response);
+        });
     }
 
     function deleteUser(req, res) {
         var userId = parseInt(req.params.id);
         UserModel.deleteUser(userId);
-        res.send(200);
+        res.send(200);f
     }
 };
