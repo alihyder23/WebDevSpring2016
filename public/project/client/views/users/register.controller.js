@@ -9,36 +9,34 @@
         $scope.message = null;
         $scope.register = register;
 
-        function register(user) {
+        function register() {
             $scope.message = null;
-            if (user == null) {
+
+            console.log($scope.user.username);
+
+            if ($scope.user == null) {
                 $scope.message = "Please fill in the required fields";
                 return;
             }
-            if (!user.username) {
+            if (!$scope.user.username) {
                 $scope.message = "Please provide a username";
                 return;
             }
-            if (!user.password || !user.password2) {
+            if (!$scope.user.password || !$scope.user.password2) {
                 $scope.message = "Please provide a password";
                 return;
             }
-            if (user.password != user.password2) {
+            if ($scope.user.password != $scope.user.password2) {
                 $scope.message = "Passwords must match";
                 return;
             }
-            var user = UserService.findUserByUsername(user.username);
-            if (user != null) {
-                $scope.message = "User already exists";
-                return;
+            else {
+                $scope.message = null;
+                UserService.createUser($scope.user).then(function(res) {
+                    $rootScope.currentUser = res.data[res.data.length-1];
+                    $rootScope.$location.url('/profile');
+                });
             }
-
-            UserService.createUser(user, callback);
-            function callback(user) {
-                UserService.setCurrentUser(user);
-                $location.url("/profile");
-            }
-
         }
     }
 })();

@@ -5,26 +5,28 @@
         .module("Gunners")
         .controller("ProfileController", ProfileController);
 
-    function ProfileController($scope, UserService, $location) {
+    function ProfileController($scope, $rootScope, UserService, $location) {
         $scope.message = null;
 
         if (!$scope.currentUser) {
             $location.url("/home");
         }
 
-        $scope.updateUser = updateUser;
+        $scope.updates = {
+            username: $rootScope.currentUser.username,
+            password: $rootScope.currentUser.password,
+            firstName: $rootScope.currentUser.firstName,
+            lastName: $rootScope.currentUser.lastName,
+            email: $rootScope.currentUser.email
+        };
 
-        function updateUser (user) {
-            $scope.message = null;
-            UserService.updateUser($scope.currentUser._id, user, callback);
-            function callback(user){
-                if (user) {
-                    $scope.message = "User updated successfully";
-                    UserService.setCurrentUser(user);
-                } else {
-                    $scope.message = "Unable to update the user";
-                }
-            }
+        $scope.update = update;
+
+        function update() {
+            UserService.updateUser($rootScope.currentUser._id, $scope.updates).then(function(res) {
+                UserService.setCurrentUser(res.data);
+                $scope.message = "User updated successfully"
+            });
         }
     }
 })();

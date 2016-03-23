@@ -6,6 +6,9 @@
 
     function FormsController($rootScope, $scope, FormService){
 
+        if(!$rootScope.currentUser){
+            $rootScope.$location.url('/login')
+        }
         refresh();
 
         $scope.addForm = addForm;
