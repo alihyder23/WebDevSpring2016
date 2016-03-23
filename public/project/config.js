@@ -23,10 +23,6 @@
                 templateUrl: "./client/views/users/register.view.html",
                 controller: "RegisterController"
             })
-            .when("/forum", {
-                templateUrl: "./client/views/forum/forum.view.html",
-                controller: "ForumController"
-            })
             .when("/news", {
                 templateUrl: "./client/views/news/news.view.html",
                 controller: "NewsController"
