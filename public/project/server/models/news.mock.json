@@ -1,0 +1,18 @@
+[
+  {
+    "_id": "000",
+    "title": "Wenger thinks we can last pace",
+    "date": "10/5/2016",
+    "author" : "Mesut Ozil",
+    "userId": 234,
+    "content" : "we won!"
+  },
+  {
+    "_id": "001",
+    "title": "Ozil delighted with his form",
+    "date": "10/5/2016",
+    "author" : "Ali Hyder",
+    "userId": 123,
+    "content" : "we won!"
+  }
+]

@@ -1,155 +1,241 @@
 var mock = require("./form.mock.json");
 
+// load q promise library
+var q = require("q");
+var uuid = require("node-uuid");
+
 module.exports = function() {
-    "use strict";
+
     var api = {
         createForm: createForm,
         findAllForms: findAllForms,
+        findFormsForUser: findFormsForUser,
         findFormById: findFormById,
-        findFormByTitle: findFormByTitle,
-        findFormByUserId: findFormByUserId,
         updateForm: updateForm,
         deleteForm: deleteForm,
-
-        findAllFieldsByFormId: findAllFieldsByFormId,
-        findFieldByFormId: findFieldByFormId,
-        deleteFieldById: deleteFieldById,
-        updateFieldById: updateFieldById,
-        createFieldById: createFieldById,
+        findFormByTitle: findFormByTitle,
+        getFieldsByFormId: getFieldsByFormId,
+        getFieldById: getFieldById,
+        deleteField: deleteField,
+        createField: createField,
+        updateField: updateField,
         updateAllFields: updateAllFields
     };
+
     return api;
 
-    function createForm(form) {
-        form._id = (new Date).getTime().toString();
-        form.label = null;
-        form.type = null;
-        form.fields = []
+    function createForm(userId, form) {
+
+        var deferred = q.defer();
+
+        form._id = uuid.v4();
+        form.userId = userId;
+        form.fields = [];
         mock.push(form);
-        return form;
+
+        console.log("newForm: "+form);
+
+        findFormsForUser(userId).then(function(forms) {
+           deferred.resolve(forms);
+        });
+
+        return deferred.promise;
     }
 
     function findAllForms() {
-        return mock;
+
+        var deferred = q.defer();
+
+        deferred.resolve(mock);
+
+        return deferred.promise;
     }
 
-    function findFormById(formId) {
-        for (var i in mock) {
-            if (mock[i]._id === formId) {
-                return mock[i];
+    function findFormsForUser(userId) {
+
+        var deferred = q.defer();
+
+        findAllForms().then(function(forms) {
+
+            var userForms = [];
+
+            for(var f in forms) {
+                if(forms[f].userId === userId) {
+                    userForms.push(forms[f]);
+                }
+            }
+
+            deferred.resolve(userForms);
+        });
+
+        return deferred.promise;
+    }
+
+    function findFormById(id) {
+
+        var deferred = q.defer();
+
+        var form = null;
+
+        for(var f in mock) {
+            if (mock[f]._id === id) {
+                form = mock[f];
             }
         }
-        return null;
+
+        deferred.resolve(form);
+
+        return deferred.promise;
+    }
+
+    function updateForm(id, form) {
+
+        var deferred = q.defer();
+
+        findFormById(id).then(function(oldForm) {
+            oldForm.title = form.title;
+            oldForm.userId = form.userId;
+            oldForm.fields = form.fields;
+
+            deferred.resolve(oldForm);
+        });
+
+        return deferred.promise;
+    }
+
+    function deleteForm(id) {
+
+        var deferred = q.defer();
+
+        for(var f in mock) {
+            if(mock[f]._id === id) {
+
+                console.log(mock[f]._id + " === " + id);
+
+
+                var userId = mock[f].userId;
+                mock.splice(f, 1);
+
+                console.log('just spliced. finding forms for user '+userId);
+
+                findFormsForUser(userId).then(function(forms) {
+                    console.log('found them, now resolving...');
+                    deferred.resolve(forms);
+                });
+            }
+            else {
+                console.log(mock[f]._id + " !== " + id);
+            }
+        }
+
+        return deferred.promise;
+
     }
 
     function findFormByTitle(title) {
-        for (var i in mock) {
-            if (mock[i].title === title) {
-                return mock[i];
-            }
-        }
-        return null;
-    }
 
-    function findFormByUserId(userId) {
-        var userForms = [];
-        for (var i in mock) {
-            if (mock[i].userId === userId) {
-                userForms.push(mock[i])
-            }
-        }
-        return userForms;
-    }
+        var deferred = q.defer();
 
-    function updateForm(formId, form) {
-        for (var i in mock) {
-            if (mock[i]._id === formId) {
-                mock[i] = form;
-                return mock[i];
-            }
-        }
-        return null;
-    }
+        var form = null;
 
-    function deleteForm(formId) {
-        var newForms = [];
-        for (var i in mock) {
-            if (mock[i]._id !== formId) {
-                newForms.push(mock[i]);
-            }
-        }
-        mock = newForms;
-    }
-
-    function findAllFieldsByFormId(formId) {
-        var form = findFormById(formId)
-        if (form) {
-            return form.fields;
-        }
-        return null;
-    }
-
-    function findFieldByFormId(formId, fieldId) {
-        var fields = findAllFieldsByFormId(formId);
-        for (var i in fields) {
-            if (fields[i]._id === fieldId) {
-                return fields[i];
-            }
-        }
-        return null;
-    }
-
-    function deleteFieldById(formId, fieldId) {
-        var newFields = [];
-        var currentFields = findAllFieldsByFormId(formId);
-        for (var i in currentFields) {
-            if (currentFields[i]._id !== fieldId) {
-                newFields.push(currentFields[i]);
+        for(var f in mock) {
+            if (mock[f].title === title) {
+                form = mock[f];
             }
         }
 
-        for (var i in mock) {
-            if (mock[i]._id === formId) {
-                mock[i].fields = newFields;
-                return mock[i].fields;
-            }
-        }
-        return null;
+        deferred.resolve(form);
+
+        return deferred.promise;
     }
 
-    function updateFieldById(formId, fieldId, newField) {
-        for (var i in mock) {
-            if (mock[i]._id === formId) {
-                for (var j in mock[i].fields) {
-                    if (mock[i].fields[j]._id === fieldId) {
-                        mock[i].fields[j] = newField;
-                        return mock[i].fields[j];
+    function getFieldsByFormId(id) {
+
+        var deferred = q.defer();
+
+        findFormById(id).then(function(form) {
+            deferred.resolve(form.fields);
+        });
+
+        return deferred.promise;
+    }
+
+    function getFieldById(formId, fieldId) {
+
+        var deferred = q.defer();
+
+        getFieldsByFormId(formId).then(function(fields) {
+
+            for(var f in fields) {
+                if(fields[f]._id === fieldId) {
+                    deferred.resolve(fields[f]);
+                }
+            }
+
+        });
+
+        return deferred.promise;
+    }
+
+    function deleteField(formId, fieldId) {
+
+        var deferred = q.defer();
+
+        for(var formIndex in mock) {
+            if(mock[formIndex]._id === formId) {
+                var formFields = mock[formIndex].fields;
+                for(var fieldIndex in formFields) {
+                    if(formFields[fieldIndex]._id === fieldId) {
+                        formFields.splice(fieldIndex, 1);
+                        deferred.resolve(formFields);
                     }
                 }
             }
         }
-        return null;
+
+        return deferred.promise;
     }
 
-    function updateAllFields(formId, newFields) {
-        for (var i in mock) {
-            if (mock[i]._id === formId) {
-                mock[i].fields = newFields;
-                return mock[i].fields;
+    function createField(formId, field) {
+
+        var deferred = q.defer();
+
+        field._id = uuid.v4();
+
+        getFieldsByFormId(formId).then(function(fields) {
+            fields.push(field);
+            deferred.resolve(fields);
+        });
+
+        return deferred.promise;
+    }
+
+    function updateAllFields(formId, fields) {
+
+        var deferred = q.defer();
+
+        findFormById(formId).then(function(form) {
+            form.fields = fields;
+            deferred.resolve(fields);
+        });
+
+        return deferred.promise;
+    }
+
+    function updateField(formId, fieldId, field) {
+
+        var deferred = q.defer();
+
+        findFormById(formId).then(function(form) {
+            for(var f in form.fields) {
+                if(form.fields[f]._id === fieldId) {
+                    form.fields[f] = field;
+                    deferred.resolve(field);
+                }
             }
-        }
-        return null;
+        });
+
+        return deferred.promise;
     }
 
-    function createFieldById(formId, newField) {
-        newField._id = (new Date).getTime().toString();
-        for (var i in mock) {
-            if (mock[i]._id === formId) {
-                mock[i].fields.push(newField);
-                return mock[i].fields;
-
-            }
-        }
-        return null;
-    }
 };
