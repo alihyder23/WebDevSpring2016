@@ -10,17 +10,16 @@
         $scope.login = login;
 
         function login (user) {
-            UserService.findUserByCredentials({username: user.username, password: user.password}, callback);
-            function callback(user){
+            UserService.findUserByCredentials(user.username, user.password).then(function(res) {
+                var user = res.data;
                 if (user) {
                     $rootScope.currentUser = user;
-                    UserService.setCurrentUser(user, callback);
-                    $location.url("/profile");
-                }
-                else {
+                    UserService.setCurrentUser(user);
+                    $rootScope.$location.url("/profile");
+                } else {
                     $scope.message = "Invalid Username or Password"
                 }
-            }
+            });
         }
     }
 })();

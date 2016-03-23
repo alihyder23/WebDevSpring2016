@@ -4,7 +4,9 @@
     angular.module("FormBuilderApp")
         .controller("AdminController", AdminController);
 
-    function AdminController($scope){
-
+    function AdminController($rootScope){
+        if(!$rootScope.currentUser){
+            $rootScope.$location.url('/login')
+        }
     }
 })();

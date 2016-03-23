@@ -13,10 +13,10 @@
     </tr>
     </thead>
     <tbody>
-    <tr ng-repeat="form in forms">
-        <td>{{form.title}}</td>
-        <td>{{form.author}}</td>
-        <td>{{form.date}}</td>
+    <tr ng-repeat="n in news">
+        <td>{{n.title}}</td>
+        <td>{{n.author}}</td>
+        <td>{{n.date}}</td>
         <td>
             <div class="btn-group">
                 <button ng-click="deleteForm($index)" type="button" class="btn btn-primary">
