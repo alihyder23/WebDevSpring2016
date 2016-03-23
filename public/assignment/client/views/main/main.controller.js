@@ -1,20 +1,14 @@
-(function() {
-    "use strict";
-    angular
-        .module('FormBuilderApp')
+(function(){
+    'use strict';
+
+    angular.module("FormBuilderApp")
         .controller("MainController", MainController);
 
-    function MainController($scope, $rootScope, $location) {
-        $scope.$location = $location;
+    function MainController($rootScope, $scope, $location){
+        // add location to $rootScope to make it available to all children
+        $rootScope.$location = $location;
 
-        $scope.logout = function() {
-            $rootScope.loggedIn = false;
-        };
-
-        $scope.updateLocation = function() {
-            $scope.location = $location.url();
-        };
-
-
+        // expose a global current user
+        $rootScope.currentUser = null;
     }
 })();

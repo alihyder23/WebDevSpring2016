@@ -1,29 +1,33 @@
-(function() {
-    "use strict";
+(function(){
+    'use strict';
+
     angular
-        .module('FormBuilderApp')
+        .module("FormBuilderApp")
         .factory("FormService", FormService);
 
-    function FormService($http) {
-
-        var factory = {};
-
-        factory.createFormForUser = function(userId, form) {
-            return $http.post("/api/assignment/user/" + userId + "/form", form);
+    function FormService($http, $rootScope) {
+        var model = {
+            createFormForUser: createFormForUser,
+            findAllFormsForUser: findAllFormsForUser,
+            deleteFormById: deleteFormById,
+            updateFormById: updateFormById
         };
+        return model;
 
-        factory.findAllFormsForUser = function(userId) {
-            return $http.get("/api/assignment/user/" + userId + "/form");
-        };
+        function createFormForUser(userId, form){
+            return $http.post('/api/assignment/user/'+userId+'/form', form);
+        }
 
-        factory.deleteFormById = function(formId) {
-            return $http.delete("/api/assignment/form/" + formId);
-        };
+        function findAllFormsForUser(userId) {
+            return $http.get('/api/assignment/user/'+userId+'/form');
+        }
 
-        factory.updateFormById = function(formId, newForm) {
-            return $http.put("/api/assignment/form/" + formId, newForm);
-        };
+        function deleteFormById(formId) {
+            return $http.delete('/api/assignment/form/'+formId);
+        }
 
-        return factory;
+        function updateFormById(formId, newForm) {
+            return $http.put('/api/assignment/form/'+formId, newForm);
+        }
     }
 })();

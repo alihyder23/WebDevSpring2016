@@ -1,32 +1,23 @@
-(function() {
-    "use strict";
-    angular
-        .module('FormBuilderApp')
+(function(){
+    'use strict';
+
+    angular.module("FormBuilderApp")
         .controller("LoginController", LoginController);
 
-    function LoginController($scope, $rootScope, UserService) {
+    function LoginController($rootScope, $scope, UserService){
+        $scope.login = login;
 
-        $scope.login = function() {
-            UserService.findUserByUsernameAndPassword($scope.username, $scope.password).then(
-                function(response) {
-                    var user = response.data;
-                    if (user === null) {
-                        $scope.error = "Invalid Username or Password";
-                    } else {
-                        $rootScope.loggedIn = true;
-                        $rootScope.user = user;
-                        for (var i in user.roles) {
-                            if (user.roles[i] === "admin") {
-                                $rootScope.isAdmin = true;
-                            }
-                        }
-                        $scope.$location.url("/profile");
-                    }
+        function login (user) {
+            UserService.findUserByCredentials(user.username, user.password).then(function(res) {
+                var user = res.data;
+                if (user) {
+                    $rootScope.currentUser = user;
+                    UserService.setCurrentUser(user);
+                    $rootScope.$location.url("/profile");
+                } else {
+                    $scope.error = "Login failed: invalid credentials."
                 }
-            );
-
-        };
-
+            });
+        }
     }
 })();
-
