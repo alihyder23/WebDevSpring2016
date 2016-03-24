@@ -8,7 +8,9 @@
         if(!$rootScope.currentUser){
             $rootScope.$location.url('/login')
         }
-        
+
+        $rootScope.searchPage = null;
+
         $scope.fetchFixtures = fetchFixtures;
 
         function fetchFixtures() {

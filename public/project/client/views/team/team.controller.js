@@ -10,6 +10,8 @@
             $rootScope.$location.url('/login')
         }
 
+        $rootScope.searchPage = null;
+
         $scope.fetchPlayers = fetchPlayers;
 
         function fetchPlayers() {
