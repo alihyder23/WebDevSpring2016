@@ -39,12 +39,14 @@
                 <li ng-show="currentUser"><a id="logout" ng-click="logout()">Logout</a></li>
                 <li ng-hide="currentUser"><a href="#/register">Register</a></li>
                 <li ng-hide="currentUser"><a href="#/login">Login</a></li>
-                <li>
+                <li ng-show="currentUser">
                     <form class="navbar-form" role="search">
                         <div class="input-group">
-                            <input type="text" class="form-control search-bar" placeholder="Search" name="srch-term" id="srch-term">
+                            <input ng-model="searchParam" type="text" class="form-control search-bar" placeholder="Search" name="Search" id="Search">
                             <div class="input-group-btn">
-                                <button class="btn btn-default search-bar" type="submit"><i class="glyphicon glyphicon-search"></i></button>
+                                <button ng-click="search()" type="button" class="btn btn-default searchBar">
+                                    <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+                                </button>
                             </div>
                         </div>
                     </form>

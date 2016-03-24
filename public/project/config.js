@@ -39,6 +39,10 @@
                 templateUrl: "./client/views/fixtures/fixtures.view.html",
                 controller: "FixturesController"
             })
+            .when("/search", {
+                templateUrl: "./client/views/search/search.view.html",
+                controller: "SearchController"
+            })
 
             .otherwise({
                 redirectTo: "/home"
