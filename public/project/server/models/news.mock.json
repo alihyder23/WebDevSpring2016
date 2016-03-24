@@ -16,6 +16,14 @@
     "content" : "we won!"
   },
   {
+    "_id": "00234",
+    "title": "Who is the greatest?",
+    "date": "10/5/2016",
+    "author" : "Ali Hyder",
+    "userId": 123,
+    "content" : "Ozil of course!!!!"
+  },
+  {
     "_id": "002",
     "title": "Chelsea are stupid",
     "date": "10/20/2016",
