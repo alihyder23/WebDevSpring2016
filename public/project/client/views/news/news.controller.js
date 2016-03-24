@@ -5,6 +5,9 @@
         .controller("NewsController", NewsController);
 
     function NewsController($rootScope, $scope, NewsService){
+        if(!$rootScope.currentUser){
+            $rootScope.$location.url('/login')
+        }
 
         refresh();
 

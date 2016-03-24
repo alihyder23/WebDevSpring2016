@@ -5,7 +5,7 @@
         .module("Gunners")
         .controller("LoginController", LoginController);
 
-    function LoginController ($scope, UserService, $location, $rootScope) {
+    function LoginController ($scope, UserService, $location, $rootScope, TeamService, FixturesService) {
         $scope.message = null;
         $scope.login = login;
 
@@ -20,6 +20,9 @@
                     $scope.message = "Invalid Username or Password"
                 }
             });
+            TeamService.updatePlayers();
+            FixturesService.updateFixtures();
+
         }
     }
 })();

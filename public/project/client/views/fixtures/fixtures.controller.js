@@ -5,16 +5,17 @@
         .controller("FixturesController", FixturesController);
 
     function FixturesController($rootScope, $scope, FixturesService) {
-        $scope.fetchFixtures = fetchFixtures;
-
-        function init() {
-            fetchFixtures();
+        if(!$rootScope.currentUser){
+            $rootScope.$location.url('/login')
         }
-        init();
+        
+        $scope.fetchFixtures = fetchFixtures;
 
         function fetchFixtures() {
             FixturesService.updateFixtures();
             $scope.fixtures = FixturesService.fixtures;
         }
+
+        fetchFixtures();
     }
 })();
