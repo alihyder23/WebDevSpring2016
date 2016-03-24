@@ -1,10 +1,11 @@
 module.exports = function(app, newsModel) {
 
     app.get('/api/project/user/:userId/news', findNewsForUser);
-    app.get('/api/project/news/:formId', findNewsById);
-    app.delete('/api/project/form/:formId', deleteNews);
-    app.post('/api/project/user/:userId/form', createNews);
-    app.put('/api/project/form/:formId', updateNews);
+    app.get('/api/project/news', findAllNews);
+    app.get('/api/project/news/:newsId', findNewsById);
+    app.delete('/api/project/news/:newsId', deleteNews);
+    app.post('/api/project/user/:userId/news', createNews);
+    app.put('/api/project/news/:newsId', updateNews);
 
     function findNewsForUser(req, res) {
 
@@ -15,9 +16,16 @@ module.exports = function(app, newsModel) {
         });
     }
 
+    function findAllNews(req, res) {
+
+        newsModel.findAllNews().then(function(news) {
+            res.json(news);
+        });
+    }
+
     function findNewsById(req, res) {
 
-        var id = req.params.formId;
+        var id = req.params.newsId;
 
         newsModel.findNewsById(id).then(function(news) {
            res.json(news);
@@ -26,7 +34,7 @@ module.exports = function(app, newsModel) {
 
     function deleteNews(req, res) {
 
-        var id = req.params.formId;
+        var id = req.params.newsId;
 
         newsModel.deleteNews(id).then(function(news) {
             res.json(news);

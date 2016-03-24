@@ -161,7 +161,22 @@ html {
 .table-striped>tbody>tr:nth-child(odd)>th {
     background-color: #FFFDFA;
 }
+
 .table-striped>tbody>tr:nth-child(even)>td,
 .table-striped>tbody>tr:nth-child(even)>th {
     background-color: #ED1B24;
+}
+
+.btn-default.mynews {
+    border: 1px solid black;
+    color: black;
+    background-color: transparent;
+}
+
+.btn-default.mynews:hover,
+.btn-default.mynews:focus {
+    border: 1px solid black;
+    outline: 0;
+    color: black;
+    background-color: transparent;
 }

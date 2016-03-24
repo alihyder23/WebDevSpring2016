@@ -3,10 +3,10 @@
     "_id":123,
     "firstName":"Ali",
     "lastName":"Hyder",
-    "username":"Prince Ali",
-    "password":"hyder",
+    "username":"ali",
+    "password":"ali",
     "email":"ali@me.com",
-    "roles": ["admin, fan, news"]
+    "roles": ["admin", "fan", "news"]
   },
   {
     "_id":234,
@@ -15,7 +15,7 @@
     "username":"M10",
     "password":"yagunnersya",
     "email":"mesut@me.com",
-    "roles": ["fan , news"]
+    "roles": ["fan" , "news"]
   },
   {
     "_id":345,
