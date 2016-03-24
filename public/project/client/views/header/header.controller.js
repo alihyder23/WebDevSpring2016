@@ -16,7 +16,8 @@
             $location.url("/home");
         }
         function search() {
-            $rootScope.searchParam = $scope.searchParam;
+            $rootScope.searchParam = $scope.searchParam.toLowerCase();
+            $scope.searchParam = null;
             $location.url("/search");
         }
     }

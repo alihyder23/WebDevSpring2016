@@ -39,7 +39,7 @@
                 <li ng-show="currentUser"><a id="logout" ng-click="logout()">Logout</a></li>
                 <li ng-hide="currentUser"><a href="#/register">Register</a></li>
                 <li ng-hide="currentUser"><a href="#/login">Login</a></li>
-                <li ng-show="currentUser">
+                <li ng-show="currentUser && !searchPage">
                     <form class="navbar-form" role="search">
                         <div class="input-group">
                             <input ng-model="searchParam" type="text" class="form-control search-bar" placeholder="Search" name="Search" id="Search">
