@@ -1,3 +1,4 @@
+
 (function(){
 
     angular
@@ -5,16 +6,17 @@
         .controller("TeamController", TeamController);
 
     function TeamController($rootScope, $scope, TeamService) {
-        $scope.fetchPlayers = fetchPlayers;
-
-        function init() {
-            fetchPlayers();
+        if(!$rootScope.currentUser){
+            $rootScope.$location.url('/login')
         }
-        init();
+
+        $scope.fetchPlayers = fetchPlayers;
 
         function fetchPlayers() {
             TeamService.updatePlayers();
             $scope.players = TeamService.players;
         }
+
+        fetchPlayers();
     }
 })();
