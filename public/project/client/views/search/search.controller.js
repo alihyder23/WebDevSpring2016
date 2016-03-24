@@ -13,7 +13,16 @@
 
         function refresh() {
             NewsService.findAllNews().then(function(res) {
-                $scope.news = res.data;
+                var string = $rootScope.searchParam;
+                var news = [];
+                for (var i = 0; i<res.data.length; i++) {
+                    if ((res.data[i].title.indexOf(string) > -1) || (res.data[i].content.indexOf(string) > -1) || (res.data[i].author.indexOf(string) > -1)) {
+                        news.push(res.data[i]);
+                    }
+                }
+                $scope.results = news;
+                console.log(news);
+
             });
         }
     }
