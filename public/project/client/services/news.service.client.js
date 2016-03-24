@@ -5,51 +5,34 @@
         .module("Gunners")
         .factory("NewsService", NewsService);
 
-    function NewsService($rootScope) {
+    function NewsService($rootScope, $http) {
         var model = {
-            createFormForUser: createFormForUser,
-            findAllFormsForUser: findAllFormsForUser,
-            deleteFormById: deleteFormById,
-            updateFormById: updateFormById
+            createNewsForUser: createNewsForUser,
+            findAllNewsForUser: findAllNewsForUser,
+            deleteNewsById: deleteNewsById,
+            updateNewsById: updateNewsById,
+            findAllNews: findAllNews
         };
         return model;
 
-        function createFormForUser(userId, form, callback){
-            form._id = (new Date).getTime();
-            form.userId = userId;
-            model.forms.push(form);
-            callback(form);
+        function createNewsForUser(userId, news){
+            return $http.post('/api/project/user/'+userId+'/news', news);
         }
 
-        function findAllFormsForUser(userId, callback) {
-            var formsForUser = [];
-            for(var form in model.forms){
-                if(model.forms[form].userId === userId) {
-                    formsForUser.push(model.forms[form]);
-                }
-            }
-            callback(formsForUser);
+        function findAllNewsForUser(userId) {
+            return $http.get('/api/project/user/'+userId+'/news');
         }
 
-        function deleteFormById(formId, callback) {
-            for(var f in model.forms) {
-                if(model.forms[f]._id === formId) {
-                    model.forms.splice(f, 1);
-                    callback(model.forms);
-                }
-            }
-            callback(null);
+        function deleteNewsById(newsId) {
+            return $http.delete('/api/project/news/'+newsId);
         }
 
-        function updateFormById(formId, newForm, callback) {
-            for(var f in model.forms) {
-                if(model.forms[f]._id === formId) {
-                    var form = model.forms[f];
-                    form.userId = newForm.userId;
-                    form.title = newForm.title;
-                    callback(form);
-                }
-            }
+        function updateNewsById(newsId, newNews) {
+            return $http.put('/api/project/news/'+newsId, newNews);
+        }
+
+        function findAllNews() {
+            return $http.get('/api/project/news');
         }
     }
 })();
