@@ -26,7 +26,7 @@
     </thead>
     <tbody>
 
-    <tr ng-repeat="n in results" ng-class="{'selectedRow' : n._id === selectedNews._id }">
+    <tr ng-repeat="n in newsResults" ng-class="{'selectedRow' : n._id === selectedNews._id }">
         <!--<td><a href="#/forms/{{form._id}}/fields">{{form.title}}</a></td>-->
         <td>{{n.title}}</td>
         <td>{{n.content}}</td>
@@ -34,5 +34,45 @@
         <td>{{n.date}}</td>
     </tr>
 
+    </tbody>
+</table>
+
+<h3>Results in Players</h3>
+<table class="table table-striped table-bordered">
+    <thead>
+    <tr>
+        <th></th>
+        <th>Player</th>
+        <th>Position</th>
+        <th>Nationality</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr ng-repeat="n in playersResults" ng-class="{'selectedRow' : n._id === selectedPlayers._id }">
+        <td>{{n.jerseyNumber}}</td>
+        <td>{{n.name}}</td>
+        <td>{{n.position}}</td>
+        <td>{{n.nationality}}</td>
+    </tr>
+    </tbody>
+</table>
+
+<h3>Results in Fixtures</h3>
+<table class="table table-striped table-bordered">
+    <thead>
+    <tr>
+        <th>Matchday</th>
+        <th>Date</th>
+        <th>Result</th>
+        <th>Status</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr ng-repeat="n in fixturesResults" ng-class="{'selectedRow' : n._id === selectedFixtures._id }">
+        <td>{{n.matchday}}</td>
+        <td>{{n.date}}</td>
+        <td>{{n.homeTeamName}} {{n.result.goalsHomeTeam}} - {{n.result.goalsAwayTeam}} {{n.awayTeamName}}</td>
+        <td>{{n.status}}</td>
+    </tr>
     </tbody>
 </table>

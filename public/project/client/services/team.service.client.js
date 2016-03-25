@@ -7,18 +7,22 @@
 
     function TeamService($http) {
         var model = {
-            players: [],
-            fetchPlayers: fetchPlayers
+            fetchPlayers: fetchPlayers,
+            searchPlayers: searchPlayers,
+            getPlayers: getPlayers
         };
         return model;
 
         function fetchPlayers() {
             return $http.get('/api/project/team')
-                .then(function (response) {
-                    var data = angular.fromJson(response.data);
-                    model.players = data.players;
-                    return model.players;
-                });
+        }
+
+        function searchPlayers (string) {
+            return $http.get('/api/project/team/search/'+string);
+        }
+
+        function getPlayers () {
+            return $http.get('/api/project/players');
         }
     }
 }());

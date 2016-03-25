@@ -7,18 +7,22 @@
 
     function FixturesService($http) {
         var model = {
-            fixtures: [],
-            fetchFixtures: fetchFixtures
+            fetchFixtures: fetchFixtures,
+            searchFixtures: searchFixtures,
+            getFixtures: getFixtures
         };
         return model;
 
         function fetchFixtures() {
-            return $http.get('/api/project/fixtures')
-                .then(function (response) {
-                    var data = angular.fromJson(response.data);
-                    model.fixtures = data.fixtures;
-                    return model.fixtures;
-                });
+            return $http.get('/api/project/fixtures');
+        }
+
+        function searchFixtures (string) {
+            return $http.get('/api/project/fixtures/search/'+string);
+        }
+
+        function getFixtures () {
+            return $http.get('/api/project/matches');
         }
     }
 }());

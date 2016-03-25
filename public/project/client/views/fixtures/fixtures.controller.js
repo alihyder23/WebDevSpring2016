@@ -10,8 +10,8 @@
         $scope.fetchFixtures = fetchFixtures;
 
         function fetchFixtures() {
-            FixturesService.fetchFixtures().then(function (response) {
-                $scope.fixtures = response;
+            FixturesService.getFixtures().then(function (response) {
+                $scope.fixtures = response.data;
             });
         }
 

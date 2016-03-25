@@ -1,8 +1,10 @@
 var http = require('http');
 
-module.exports = function (app) {
+module.exports = function (app, fixturesModel) {
 
     app.get("/api/project/fixtures", fetchFixtures);
+    app.get("/api/project/matches", getFixtures);
+    app.get('/api/project/fixtures/search/:string', searchFixtures);
 
     function fetchFixtures(req, res){
         var options = {
@@ -18,13 +20,29 @@ module.exports = function (app) {
                 body += data;
             });
             response.on('end', function () {
-                console.log(JSON.parse(body));
-                res.send(JSON.parse(body));
+                data = JSON.parse(body).fixtures;
+                fixturesModel.updateFixtures(data);
+                res.send(data);
             });
         });
         request.on('error', function (e) {
             console.log('Problem with request: ' + e.message);
         });
         request.end();
+    }
+
+    function searchFixtures(req, res) {
+
+        var string = req.params.string;
+
+        fixturesModel.searchFixtures(string).then(function(fixtures) {
+            res.json(fixtures);
+        });
+    }
+
+    function getFixtures(req, res) {
+        fixturesModel.getFixtures().then(function(fixtures) {
+            res.json(fixtures);
+        });
     }
 };
