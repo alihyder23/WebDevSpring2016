@@ -13,7 +13,8 @@ module.exports = function() {
         findNewsById: findNewsById,
         updateNews: updateNews,
         deleteNews: deleteNews,
-        findNewsByTitle: findNewsByTitle
+        findNewsByTitle: findNewsByTitle,
+        searchNews: searchNews
     };
 
     return api;
@@ -96,14 +97,14 @@ module.exports = function() {
 
         var deferred = q.defer();
 
-        for(var f in mock) {
-            if(mock[f]._id === id) {
+        for(var i in mock) {
+            if(mock[i]._id === id) {
 
-                console.log(mock[f]._id + " === " + id);
+                console.log(mock[i]._id + " === " + id);
 
 
-                var userId = mock[f].userId;
-                mock.splice(f, 1);
+                var userId = mock[i].userId;
+                mock.splice(i, 1);
 
                 console.log('just spliced. finding news for user '+userId);
 
@@ -113,7 +114,7 @@ module.exports = function() {
                 });
             }
             else {
-                console.log(mock[f]._id + " !== " + id);
+                console.log(mock[i]._id + " !== " + id);
             }
         }
 
@@ -125,11 +126,29 @@ module.exports = function() {
 
         var deferred = q.defer();
 
-        var form = null;
+        var news = null;
 
         for(var f in mock) {
             if (mock[f].title === title) {
                 news = mock[f];
+            }
+        }
+
+        deferred.resolve(news);
+
+        return deferred.promise;
+    }
+
+    function searchNews(string) {
+
+        var deferred = q.defer();
+
+        var news = [];
+
+        for (var i in mock) {
+            if ((mock[i].title.toLowerCase().indexOf(string) > -1) || (mock[i].content.toLowerCase().indexOf(string) > -1)
+                || (mock[i].author.toLowerCase().indexOf(string) > -1)) {
+                news.push(mock[i]);
             }
         }
 
