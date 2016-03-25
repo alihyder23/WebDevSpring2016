@@ -37,6 +37,6 @@
         }
         function searchNews (string) {
             return $http.get('/api/project/news/search/'+string);
-        };
+        }
     }
 })();
