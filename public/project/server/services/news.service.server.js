@@ -6,6 +6,7 @@ module.exports = function(app, newsModel) {
     app.delete('/api/project/news/:newsId', deleteNews);
     app.post('/api/project/user/:userId/news', createNews);
     app.put('/api/project/news/:newsId', updateNews);
+    app.get('/api/project/news/search/:string', searchNews);
 
     function findNewsForUser(req, res) {
 
@@ -59,6 +60,15 @@ module.exports = function(app, newsModel) {
         var news = req.body;
 
         newsModel.updateNews(id, news).then(function(news) {
+            res.json(news);
+        });
+    }
+
+    function searchNews(req, res) {
+
+        var string = req.params.string;
+
+        newsModel.searchNews(string).then(function(news) {
             res.json(news);
         });
     }

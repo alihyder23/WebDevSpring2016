@@ -11,7 +11,8 @@
             findAllNewsForUser: findAllNewsForUser,
             deleteNewsById: deleteNewsById,
             updateNewsById: updateNewsById,
-            findAllNews: findAllNews
+            findAllNews: findAllNews,
+            searchNews: searchNews
         };
         return model;
 
@@ -34,5 +35,8 @@
         function findAllNews() {
             return $http.get('/api/project/news');
         }
+        function searchNews (string) {
+            return $http.get('/api/project/news/search/'+string);
+        };
     }
 })();
