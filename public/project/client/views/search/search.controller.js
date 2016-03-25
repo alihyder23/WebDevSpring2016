@@ -13,6 +13,8 @@
 
         refresh();
 
+        $scope.search = search;
+
         function refresh() {
             NewsService.findAllNews().then(function(res) {
                 var string = $rootScope.searchParam;
@@ -26,6 +28,11 @@
                 $scope.results = news;
 
             });
+        }
+
+        function search() {
+            $rootScope.searchParam = $scope.searchParam;
+            refresh();
         }
     }
 })();
