@@ -16,7 +16,7 @@
         $scope.search = search;
 
         function refresh() {
-            NewsService.searchNews($rootScope.searchParam).then(function(res) {
+            NewsService.searchNews($rootScope.searchParam.toLowerCase()).then(function(res) {
                 $scope.results = res.data;
             });
         }
