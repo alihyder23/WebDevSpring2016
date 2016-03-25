@@ -1,8 +1,10 @@
 var http = require('http');
 
-module.exports = function (app) {
+module.exports = function (app, teamModel) {
 
     app.get("/api/project/team", fetchPlayers);
+    app.get("/api/project/players", getPlayers);
+    app.get('/api/project/team/search/:string', searchPlayers);
 
     function fetchPlayers(req, res){
         var options = {
@@ -18,12 +20,29 @@ module.exports = function (app) {
                 body += data;
             });
             response.on('end', function () {
-                res.send(JSON.parse(body));
+                data = JSON.parse(body).players;
+                teamModel.updateTeam(data);
+                res.send(data);
             });
         });
         request.on('error', function (e) {
             console.log('Problem with request: ' + e.message);
         });
         request.end();
+    }
+
+    function searchPlayers(req, res) {
+
+        var string = req.params.string;
+
+        teamModel.searchPlayers(string).then(function(players) {
+            res.json(players);
+        });
+    }
+
+    function getPlayers(req, res) {
+        teamModel.getPlayers().then(function(players) {
+            res.json(players);
+        });
     }
 };

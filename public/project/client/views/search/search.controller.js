@@ -17,7 +17,13 @@
 
         function refresh() {
             NewsService.searchNews($rootScope.searchParam.toLowerCase()).then(function(res) {
-                $scope.results = res.data;
+                $scope.newsResults = res.data;
+            });
+            TeamService.searchPlayers($rootScope.searchParam.toLowerCase()).then(function(res) {
+                $scope.playersResults = res.data;
+            });
+            FixturesService.searchFixtures($rootScope.searchParam.toLowerCase()).then(function(res) {
+                $scope.fixturesResults = res.data;
             });
         }
 

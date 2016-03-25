@@ -10,8 +10,8 @@
         $scope.fetchPlayers = fetchPlayers;
 
         function fetchPlayers() {
-            TeamService.fetchPlayers().then(function (response) {
-                $scope.players = response;
+            TeamService.getPlayers().then(function (response) {
+                $scope.players = response.data;
             });
         }
 
