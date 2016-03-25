@@ -9,8 +9,6 @@
             $rootScope.$location.url('/login')
         }
 
-        $rootScope.searchPage = null;
-
         refresh();
 
         $scope.addNews = addNews;

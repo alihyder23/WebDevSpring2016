@@ -11,8 +11,6 @@
             $location.url("/home");
         }
 
-        $rootScope.searchPage = null;
-
         $scope.update = update;
 
         function update(user) {

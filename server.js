@@ -23,5 +23,8 @@ require('./public/project/server/services/news.service.server.js')(app, newsMode
 var projectUserModel = require('./public/project/server/models/user.model.js')();
 require('./public/project/server/services/user.service.server.js')(app, projectUserModel);
 
+require('./public/project/server/services/team.service.server.js')(app);
+require('./public/project/server/services/fixtures.service.server.js')(app);
+
 app.listen(port, ipaddress);
 

@@ -8,7 +8,6 @@
     function MainController($rootScope, $location) {
         $rootScope.$location = $location;
         $rootScope.currentUser = null;
-        $rootScope.searchPage = null;
 
     }
 })();

@@ -20,9 +20,6 @@
                     $scope.message = "Invalid Username or Password"
                 }
             });
-            TeamService.updatePlayers();
-            FixturesService.updateFixtures();
-
         }
     }
 })();
