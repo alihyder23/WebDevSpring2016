@@ -22,7 +22,7 @@ module.exports = function (app, teamModel) {
             response.on('end', function () {
                 data = JSON.parse(body).players;
                 teamModel.updateTeam(data);
-                res.send(data);
+                res.send(200);
             });
         });
         request.on('error', function (e) {
