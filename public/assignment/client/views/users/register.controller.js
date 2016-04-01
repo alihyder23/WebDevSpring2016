@@ -9,7 +9,7 @@
 
         function register() {
             if($scope.user.password !== $scope.user.verifyPassword){
-                $scope.passwordConflict = "Verification conflict: passwords must match.";
+                $scope.passwordConflict = "Passwords Must Match!";
                 return;
             }
             else {

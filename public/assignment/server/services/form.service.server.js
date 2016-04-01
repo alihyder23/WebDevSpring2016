@@ -8,7 +8,7 @@ module.exports = function(app, formModel) {
 
     function findFormsForUser(req, res) {
 
-        var userId = parseInt(req.params.userId);
+        var userId = req.params.userId;
 
         formModel.findFormsForUser(userId).then(function(forms) {
            res.json(forms);
@@ -35,7 +35,7 @@ module.exports = function(app, formModel) {
 
     function createForm(req, res) {
 
-        var userId = parseInt(req.params.userId);
+        var userId = req.params.userId;
         var form = req.body;
 
         console.log(req.body);
