@@ -4,7 +4,7 @@
     angular.module("FormBuilderApp")
         .controller("FieldsController", FieldsController);
 
-    function FieldsController($rootScope, $routeParams, $scope, FieldService){
+    function FieldsController($routeParams, $scope, FieldService, $rootScope){
 
         if(!$rootScope.currentUser){
             $rootScope.$location.url('/login')
@@ -48,8 +48,9 @@
         $scope.addField = addField;
         $scope.deleteField = deleteField;
         $scope.editField = editField;
-        $scope.labelForType = labelForType();
+        $scope.labelForType = labelForType;
         $scope.saveField = saveField;
+        $scope.cloneField = cloneField;
 
         function labelForType(type) {
             switch(type) {
@@ -99,31 +100,31 @@
             var field;
             switch($scope.fieldType.value) {
                 case "TEXT":
-                    field = {"_id": null, "label": "New Text Field", "type": "TEXT", "placeholder": "New Field"};
+                    field = { "label": "New Text Field", "type": "TEXT", "placeholder": "New Field"};
                     break;
                 case "TEXTAREA":
-                    field = {"_id": null, "label": "New Text Field", "type": "TEXTAREA", "placeholder": "New" +
+                    field = { "label": "New Text Field", "type": "TEXTAREA", "placeholder": "New" +
                     " Field"};
                     break;
                 case "DATE":
-                    field = {"_id": null, "label": "New Date Field", "type": "DATE"};
+                    field = { "label": "New Date Field", "type": "DATE"};
                     break;
                 case "OPTIONS":
-                    field = {"_id": null, "label": "New Dropdown", "type": "OPTIONS", "options": [
+                    field = { "label": "New Dropdown", "type": "OPTIONS", "options": [
                         {"label": "Option 1", "value": "OPTION_1"},
                         {"label": "Option 2", "value": "OPTION_2"},
                         {"label": "Option 3", "value": "OPTION_3"}
                     ]};
                     break;
                 case "CHECKBOXES":
-                    field = {"_id": null, "label": "New Checkboxes", "type": "CHECKBOXES", "options": [
+                    field = { "label": "New Checkboxes", "type": "CHECKBOXES", "options": [
                         {"label": "Option A", "value": "OPTION_A"},
                         {"label": "Option B", "value": "OPTION_B"},
                         {"label": "Option C", "value": "OPTION_C"}
                     ]};
                     break;
                 case "RADIOS":
-                    field = {"_id": null, "label": "New Radio Buttons", "type": "RADIOS", "options": [
+                    field = { "label": "New Radio Buttons", "type": "RADIOS", "options": [
                         {"label": "Option X", "value": "OPTION_X"},
                         {"label": "Option Y", "value": "OPTION_Y"},
                         {"label": "Option Z", "value": "OPTION_Z"}
@@ -131,7 +132,7 @@
                     break;
             }
             FieldService.createFieldForForm(formId, field).then(function(res) {
-                $scope.fields = res.data;
+                $scope.fields.push(res.data);
             });
         }
 
@@ -142,8 +143,11 @@
         }
 
         function cloneField(index) {
-            FieldService.createFieldForForm(formId, $scope.fields[index]).then(function(res) {
-               $scope.fields = res.data;
+            var clonedField = jQuery.extend(true, {}, $scope.fields[index]);
+            delete clonedField._id;
+
+            FieldService.createFieldForForm(formId, clonedField).then(function(res) {
+               $scope.fields.push(res.data);
             });
         }
 

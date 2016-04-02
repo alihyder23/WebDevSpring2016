@@ -15,7 +15,7 @@
                     UserService.setCurrentUser(user);
                     $rootScope.$location.url("/profile");
                 } else {
-                    $scope.error = "Login failed: invalid credentials."
+                    $scope.error = "Invalid Credentials!"
                 }
             });
         }
