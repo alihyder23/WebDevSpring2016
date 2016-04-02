@@ -15,8 +15,8 @@
             password: $rootScope.currentUser.password,
             firstName: $rootScope.currentUser.firstName,
             lastName: $rootScope.currentUser.lastName,
-            emails: arrayToCsv($rootScope.currentUser.emails),
-            phones: arrayToCsv($rootScope.currentUser.phones)
+            emails: arrayToString($rootScope.currentUser.emails),
+            phones: arrayToString($rootScope.currentUser.phones)
         };
 
         $scope.update = update;
@@ -24,8 +24,8 @@
         function update() {
 
             var newUser = $.extend(true, {}, $scope.newUser);
-            newUser.emails = csvToArray(newUser.emails);
-            newUser.phones = csvToArray(newUser.phones);
+            newUser.emails = stringToArray(newUser.emails);
+            newUser.phones = stringToArray(newUser.phones);
 
             UserService.updateUser($rootScope.currentUser._id, newUser).then(function(res) {
                 UserService.setCurrentUser(res.data);
@@ -33,21 +33,21 @@
             });
         }
 
-        function arrayToCsv(array) {
-            var csv = "";
+        function arrayToString(array) {
+            var string = "";
             for(var a in array) {
                 var value = array[a];
-                csv += value;
+                string += value;
                 if(a < array.length-1) {
-                    csv += ', ';
+                    string += ', ';
                 }
             }
-            return csv;
+            return string;
         }
 
-        function csvToArray(csv) {
+        function stringToArray(string) {
             var array = [];
-            var split = csv.split(',');
+            var split = string.split(',');
             for(var s in split) {
                 array.push(split[s].trim());
             }
