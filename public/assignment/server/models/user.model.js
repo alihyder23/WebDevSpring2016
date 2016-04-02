@@ -1,10 +1,10 @@
-var mock = require("./user.mock.json");
-
-// load q promise library
 var q = require("q");
 
 
-module.exports = function() {
+module.exports = function(db, mongoose) {
+
+    var UserSchema = require('./user.schema.js')(mongoose);
+    var UserModel = mongoose.model('User', UserSchema);
 
     var api = {
         createUser: createUser,
@@ -22,9 +22,15 @@ module.exports = function() {
 
         var deferred = q.defer();
 
-        user._id = (new Date()).getTime();
-        mock.push(user);
-        deferred.resolve(mock);
+        console.log(user);
+
+        UserModel.create(user, function(err, doc) {
+           if(err) {
+               deferred.reject(err);
+           } else {
+               deferred.resolve(doc);
+           }
+        });
 
         return deferred.promise;
     }
@@ -33,7 +39,13 @@ module.exports = function() {
 
         var deferred = q.defer();
 
-        deferred.resolve(mock);
+        UserModel.find({}, function(err, users) {
+            if(err) {
+                deferred.reject(err);
+            } else {
+                deferred.resolve(users);
+            }
+        });
 
         return deferred.promise;
     }
@@ -42,15 +54,13 @@ module.exports = function() {
 
         var deferred = q.defer();
 
-        var user = null;
-
-        for(var u in mock) {
-            if (mock[u]._id === userId) {
-                user = mock[u];
+        UserModel.findById(userId, function(err, doc) {
+            if(err) {
+                deferred.reject(err);
+            } else {
+                deferred.resolve(doc);
             }
-        }
-
-        deferred.resolve(user);
+        });
 
         return deferred.promise;
     }
@@ -59,15 +69,16 @@ module.exports = function() {
 
         var deferred = q.defer();
 
-        var user = null;
-
-        for(var u in mock) {
-            if (mock[u].username === username) {
-                user = mock[u];
+        UserModel.findOne({
+            username: username
+        }, function(err, doc) {
+            if(err) {
+                deferred.reject(err);
+            } else {
+                deferred.resolve(doc);
             }
-        }
 
-        deferred.resolve(user);
+        });
 
         return deferred.promise;
     }
@@ -76,16 +87,16 @@ module.exports = function() {
 
         var deferred = q.defer();
 
-        var user = null;
-
-        for(var u in mock) {
-            if (mock[u].username === username &&
-                mock[u].password === password) {
-                user = mock[u];
+        UserModel.findOne({
+            username: username,
+            password: password
+        }, function(err, doc) {
+            if(err) {
+                deferred.reject(err);
+            } else {
+                deferred.resolve(doc);
             }
-        }
-
-        deferred.resolve(user);
+        });
 
         return deferred.promise;
     }
@@ -94,15 +105,14 @@ module.exports = function() {
 
         var deferred = q.defer();
 
-        findUserById(userId).then(function(oldUser) {
-            oldUser.firstName = user.firstName;
-            oldUser.lastName = user.lastName;
-            oldUser.username = user.username;
-            oldUser.password = user.password;
-            oldUser.roles = user.roles;
-            oldUser.email = user.email;
-
-            deferred.resolve(oldUser);
+        UserModel.update({ _id: userId }, user, function(err, result) {
+            if(err) {
+                deferred.reject(err);
+            } else {
+                findUserById(userId).then(function(user) {
+                    deferred.resolve(user);
+                });
+            }
         });
 
         return deferred.promise;
@@ -112,14 +122,13 @@ module.exports = function() {
 
         var deferred = q.defer();
 
-        for(var u in mock) {
-            if(mock[u]._id === userId) {
-                mock.splice(u, 1);
-                break;
+        UserModel.remove({ _id: userId }, function(err, result) {
+            if(err) {
+                deferred.reject(err);
+            } else {
+                deferred.resolve();
             }
-        }
-
-        deferred.resolve(mock);
+        });
 
         return deferred.promise;
 
