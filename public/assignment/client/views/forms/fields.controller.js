@@ -4,7 +4,7 @@
     angular.module("FormBuilderApp")
         .controller("FieldsController", FieldsController);
 
-    function FieldsController($routeParams, $scope, FieldService){
+    function FieldsController($rootScope, $routeParams, $scope, FieldService){
 
         if(!$rootScope.currentUser){
             $rootScope.$location.url('/login')
