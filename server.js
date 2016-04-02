@@ -3,19 +3,42 @@
  */
 var express = require('express');
 var bodyParser = require('body-parser');
+var session = require('express-session');
+
 var app = express();
+
 app.use(express.static(__dirname + '/public'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(session({
+    secret: 'secret',
+    resave: false,
+    saveUninitialized: true,
+    cookie: { secure: true }
+}));
+
+
 var ipaddress = process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1';
 var port = process.env.OPENSHIFT_NODEJS_PORT || 3000;
 
-var userModel = require('./public/assignment/server/models/user.model.js')();
-require('./public/assignment/server/services/user.service.server.js')(app, userModel);
+var mongoose = require('mongoose');
 
-var formModel = require('./public/assignment/server/models/form.model.js')();
-require('./public/assignment/server/services/form.service.server.js')(app, formModel);
-require('./public/assignment/server/services/fields.service.server.js')(app, formModel);
+var connectionString = 'mongodb://127.0.0.1:27017/local';
+
+if(process.env.OPENSHIFT_MONGODB_DB_PASSWORD) {
+    connectionString = process.env.OPENSHIFT_MONGODB_DB_USERNAME + ":" +
+        process.env.OPENSHIFT_MONGODB_DB_PASSWORD + "@" +
+        process.env.OPENSHIFT_MONGODB_DB_HOST + ':' +
+        process.env.OPENSHIFT_MONGODB_DB_PORT + '/' +
+        process.env.OPENSHIFT_APP_NAME;
+}
+
+var db = mongoose.connect(connectionString);
+
+require('./public/assignment/server/app.js')(app, db, mongoose);
+
+
+
 
 var newsModel = require('./public/project/server/models/news.model.js')();
 require('./public/project/server/services/news.service.server.js')(app, newsModel);

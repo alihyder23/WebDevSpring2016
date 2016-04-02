@@ -9,6 +9,7 @@
         if(!$rootScope.currentUser){
             $rootScope.$location.url('/login')
         }
+
         refresh();
 
         $scope.addForm = addForm;
@@ -19,7 +20,7 @@
         function addForm() {
             FormService.createFormForUser($rootScope.currentUser._id, { title: $scope.formTitle }).then(function(res) {
                 $scope.formTitle = null;
-                $scope.forms = res.data;
+                $scope.forms.push(res.data);
             });
         }
 
