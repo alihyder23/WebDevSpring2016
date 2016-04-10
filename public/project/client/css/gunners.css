@@ -14,13 +14,25 @@ body {
     color: #fff;
 }
 
+h1 {
+    text-shadow:
+            -1px -1px 0 #000,
+            1px -1px 0 #000,
+            -1px 1px 0 #000,
+            1px 1px 0 #000;
+}
+
+hr {
+    border: 1px solid #fff;
+}
+
 html {
     margin: 0;
     width: 100%;
     height: auto;
     padding: 100px 0;
     text-align: center;
-    background: url(../../../img/gunners-main.png);
+    background: url(../../../img/ozil-lag.png);
     background-color: #000;
     -webkit-background-size: cover;
     -moz-background-size: cover;
@@ -109,16 +121,16 @@ html {
 }
 
 .btn-default {
-    border: 1px solid #fff;
-    color: #fff;
+    border: 1px solid #ED1B24;
+    color: #ED1B24;
     background-color: transparent;
 }
 
 .btn-default:hover,
 .btn-default:focus {
-    border: 1px solid #ED1B24;
+    border: 1px solid #fff;
     outline: 0;
-    color: #ED1B24;
+    color: #fff;
     background-color: transparent;
 }
 
