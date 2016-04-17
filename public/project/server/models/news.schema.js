@@ -4,7 +4,7 @@ module.exports = function(mongoose) {
         title: String,
         date: Date,
         author: String,
-        userId: Integer,
+        userId: String,
         content: String
 
     }, { collection: 'project.news' });

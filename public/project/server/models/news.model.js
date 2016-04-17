@@ -104,7 +104,7 @@ module.exports = function(db, mongoose) {
 
         var deferred = q.defer();
 
-        NewsModel.delete({ _id: id }, function(err, result) {
+        NewsModel.remove({ _id: id }, function(err, result) {
             if(err) {
                 deferred.reject(err);
             } else {

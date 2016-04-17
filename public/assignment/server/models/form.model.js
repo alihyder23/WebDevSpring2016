@@ -109,7 +109,7 @@ module.exports = function(db, mongoose) {
 
         var deferred = q.defer();
 
-        FormModel.delete({ _id: id }, function(err, result) {
+        FormModel.remove({ _id: id }, function(err, result) {
            if(err) {
                deferred.reject(err);
            } else {
