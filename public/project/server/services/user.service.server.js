@@ -45,7 +45,7 @@ module.exports = function(app, projectUserModel) {
 
     function findUserById(req, res) {
 
-        var userId = parseInt(req.params.id);
+        var userId = req.params.id;
 
         projectUserModel.findUserById(userId).then(function(user) {
             res.json(user);
@@ -55,7 +55,7 @@ module.exports = function(app, projectUserModel) {
 
     function updateUser(req, res) {
 
-        var userId = parseInt(req.params.id);
+        var userId = req.params.id;
         var user = req.body;
 
         projectUserModel.updateUser(userId, user).then(function(updatedUser) {
@@ -66,7 +66,7 @@ module.exports = function(app, projectUserModel) {
 
     function deleteUser(req, res) {
 
-        var userId = parseInt(req.params.id);
+        var userId = req.params.id;
 
         projectUserModel.deleteUser(userId).then(function(users) {
             res.json(users);

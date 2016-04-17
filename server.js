@@ -36,21 +36,12 @@ if(process.env.OPENSHIFT_MONGODB_DB_PASSWORD) {
 var db = mongoose.connect(connectionString);
 
 require('./public/assignment/server/app.js')(app, db, mongoose);
-
-
-
-
-var newsModel = require('./public/project/server/models/news.model.js')();
-require('./public/project/server/services/news.service.server.js')(app, newsModel);
-
-var projectUserModel = require('./public/project/server/models/user.model.js')();
-require('./public/project/server/services/user.service.server.js')(app, projectUserModel);
-
-var teamModel = require('./public/project/server/models/team.model.js')();
-require('./public/project/server/services/team.service.server.js')(app, teamModel);
-
-var fixturesModel = require('./public/project/server/models/fixtures.model.js')();
-require('./public/project/server/services/fixtures.service.server.js')(app, fixturesModel);
+require('./public/project/server/app.js')(app, db, mongoose);
 
 app.listen(port, ipaddress);
+
+//Please make note of these MongoDB credentials:
+//    RockMongo User: admin
+//RockMongo Password: GuyBCvcN7wdY
+//URL: https://webdev2016-hyderali.rhcloud.com/rockmongo/
 
