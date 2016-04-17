@@ -22,7 +22,7 @@
             NewsService.createNewsForUser($rootScope.currentUser._id, { title: $scope.newsTitle, content: $scope.newsContent, author: author, date: date }).then(function(res) {
                 $scope.newsTitle = null;
                 $scope.newsContent = null;
-                $scope.news = res.data;
+                refresh()
             });
         }
 

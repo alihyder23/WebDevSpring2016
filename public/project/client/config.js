@@ -28,7 +28,7 @@
                 controller: "NewsController"
             })
             .when("/mynews", {
-                templateUrl: "./client/views/mynews/mynews.view.html",
+                templateUrl: "./client/views/news/mynews.view.html",
                 controller: "MyNewsController"
             })
             .when("/team", {

@@ -139,8 +139,6 @@ module.exports = function(db, mongoose) {
             if(err) {
                 deferred.reject(err);
             } else {
-                console.log("THIS IS THE NEWS: " + news);
-
                 var search = [];
                 for (var i in news) {
                     if ((news[i].title.toLowerCase().indexOf(string) > -1) || (news[i].content.toLowerCase().indexOf(string) > -1)
