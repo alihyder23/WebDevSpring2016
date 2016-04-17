@@ -1,6 +1,6 @@
 var q = require("q");
 
-module.exports = function() {
+module.exports = function(db, mongoose) {
 
     var NewsSchema = require('./news.schema.js')(mongoose);
     var NewsModel = mongoose.model('News', NewsSchema);
