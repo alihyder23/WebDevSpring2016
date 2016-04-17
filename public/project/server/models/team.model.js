@@ -15,23 +15,6 @@ module.exports = function(db, mongoose) {
 
     return api;
 
-    function updateNews(id, news) {
-
-        var deferred = q.defer();
-
-        NewsModel.update({ _id: id }, news, function(err, result) {
-            if(err) {
-                deferred.reject(err);
-            } else {
-                findNewsById(id).then(function(news) {
-                    deferred.resolve(news);
-                });
-            }
-        });
-
-        return deferred.promise;
-    }
-
     function updateTeam(team) {
         var deferred = q.defer();
 

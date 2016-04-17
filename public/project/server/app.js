@@ -9,7 +9,7 @@ module.exports = function(app, db, mongoose) {
     var teamModel = require('./models/team.model.js')(db, mongoose);
     require('./services/team.service.server.js')(app, teamModel);
 
-    //var fixturesModel = require('./models/fixtures.model.js')(db, mongoose);
-    //require('./services/fixtures.service.server.js')(app, fixturesModel);
+    var fixturesModel = require('./models/fixtures.model.js')(db, mongoose);
+    require('./services/fixtures.service.server.js')(app, fixturesModel);
 
 };
