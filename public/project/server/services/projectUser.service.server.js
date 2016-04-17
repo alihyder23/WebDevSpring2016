@@ -4,20 +4,20 @@ var LocalStrategy    = require('passport-local').Strategy;
 module.exports = function(app, projectUserModel) {
 
     var auth = authorized;
-    app.post('/api/assignment/login', passport.authenticate('local'), login);
-    app.get('/api/assignment/loggedin', loggedin);
-    app.post('/api/assignment/logout', logout);
-    app.post('/api/assignment/register', register);
+    app.post('/api/project/login', passport.authenticate('local'), login);
+    app.get('/api/project/loggedin', loggedin);
+    app.post('/api/project/logout', logout);
+    app.post('/api/project/register', register);
 
     passport.use(new LocalStrategy(localStrategy));
     passport.serializeUser(serializeUser);
     passport.deserializeUser(deserializeUser);
 
-    app.post('/api/assignment/user', createUser);
-    app.get('/api/assignment/user', findUser);
-    app.get('/api/assignment/user/:id', findUserById);
-    app.put('/api/assignment/user/:id', updateUser);
-    app.delete('/api/assignment/user/:id', deleteUser);
+    app.post('/api/project/user', createUser);
+    app.get('/api/project/user', findUser);
+    app.get('/api/project/user/:id', findUserById);
+    app.put('/api/project/user/:id', updateUser);
+    app.delete('/api/project/user/:id', deleteUser);
 
     function localStrategy(username, password, done) {
         projectUserModel
