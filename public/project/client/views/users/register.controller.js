@@ -32,7 +32,11 @@
             }
             else {
                 $scope.message = null;
-                UserService.createUser($scope.user).then(function(res) {
+                $scope.user.emails = [$scope.user.email];
+                delete $scope.user.email;
+                delete $scope.user.password2;
+
+                UserService.register($scope.user).then(function(res) {
                     $rootScope.currentUser = res.data;
                     $rootScope.$location.url('/profile');
                 });

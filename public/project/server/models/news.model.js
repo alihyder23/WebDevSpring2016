@@ -24,8 +24,6 @@ module.exports = function(db, mongoose) {
 
         news.userId = userId;
 
-        console.log("newNews: "+news);
-
         NewsModel.create(news, function(err, doc) {
             if(err) {
                 deferred.reject(err);

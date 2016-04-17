@@ -15,7 +15,10 @@
             deleteUserById: deleteUserById,
             updateUser: updateUser,
             findUserById: findUserById,
-            findUserByUsername: findUserByUsername
+            findUserByUsername: findUserByUsername,
+            login: login,
+            logout: logout,
+            register: register
         };
         return model;
 
@@ -53,6 +56,18 @@
 
         function findUserByUsername(username) {
             return $http.get('/api/project/user?username='+username);
+        }
+
+        function login(user) {
+            return $http.post('/api/assignment/login', user);
+        }
+
+        function register(user) {
+            return $http.post('/api/assignment/register', user);
+        }
+
+        function logout() {
+            return $http.post('/api/assignment/logout');
         }
 
     }

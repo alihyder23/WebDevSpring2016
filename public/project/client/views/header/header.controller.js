@@ -13,8 +13,10 @@
 
 
         function logout() {
-            UserService.setCurrentUser(null);
-            $location.url("/home");
+            UserService.logout().then(function(res) {
+                UserService.setCurrentUser(null);
+                $rootScope.$location.url('/home');
+            });
         }
         function search() {
             $rootScope.searchParam = $scope.searchParam;

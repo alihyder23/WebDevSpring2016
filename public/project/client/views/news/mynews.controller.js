@@ -40,7 +40,7 @@
 
         function deleteNews(index) {
             NewsService.deleteNewsById($scope.news[index]._id).then(function(res) {
-                $scope.news = res.data;
+                refresh();
             })
         }
 

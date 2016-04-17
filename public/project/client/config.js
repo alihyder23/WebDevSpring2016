@@ -9,11 +9,17 @@
         $routeProvider
             .when("/home", {
                 templateUrl: "./client/views/home/home.view.html",
-                controller: "HomeController"
+                    controller: "HomeController",
+                    resolve: {
+                        loggedin: checkCurrentUser
+                    }
             })
             .when("/profile", {
                 templateUrl: "./client/views/users/profile.view.html",
-                controller: "ProfileController"
+                controller: "ProfileController",
+                resolve: {
+                    loggedin: checkAdmin
+                }
             })
             .when("/login", {
                 templateUrl: "./client/views/users/login.view.html",
@@ -25,11 +31,17 @@
             })
             .when("/news", {
                 templateUrl: "./client/views/news/news.view.html",
-                controller: "NewsController"
+                controller: "NewsController",
+                resolve: {
+                    loggedin: checkAdmin
+                }
             })
             .when("/mynews", {
                 templateUrl: "./client/views/news/mynews.view.html",
-                controller: "MyNewsController"
+                controller: "MyNewsController",
+                resolve: {
+                    loggedin: checkAdmin
+                }
             })
             .when("/team", {
                 templateUrl: "./client/views/team/team.view.html",
@@ -41,11 +53,77 @@
             })
             .when("/search", {
                 templateUrl: "./client/views/search/search.view.html",
-                controller: "SearchController"
+                controller: "SearchController",
+                resolve: {
+                    loggedin: checkAdmin
+                }
             })
 
             .otherwise({
                 redirectTo: "/home"
             });
     }
+
+    var checkAdmin = function($q, $timeout, $http, $location, $rootScope)
+    {
+        var deferred = $q.defer();
+
+        $http.get('/api/assignment/loggedin').success(function(user)
+        {
+            $rootScope.errorMessage = null;
+            // User is Authenticated
+            if (user !== '0' && user.roles.indexOf('admin') != -1)
+            {
+                $rootScope.currentUser = user;
+                deferred.resolve();
+            }
+        });
+
+        return deferred.promise;
+    };
+
+
+    var checkLoggedin = function($q, $timeout, $http, $location, $rootScope)
+    {
+        var deferred = $q.defer();
+
+        $http.get('/api/assignment/loggedin').success(function(user)
+        {
+            $rootScope.errorMessage = null;
+            // User is Authenticated
+            if (user !== '0')
+            {
+                $rootScope.currentUser = user;
+                deferred.resolve();
+            }
+            // User is Not Authenticated
+            else
+            {
+                $rootScope.errorMessage = 'You need to log in.';
+                deferred.reject();
+                $location.url('/login');
+            }
+        });
+
+        return deferred.promise;
+    };
+
+    var checkCurrentUser = function($q, $timeout, $http, $location, $rootScope)
+    {
+        var deferred = $q.defer();
+
+        $http.get('/api/assignment/loggedin').success(function(user)
+        {
+            $rootScope.errorMessage = null;
+            // User is Authenticated
+            if (user !== '0')
+            {
+                $rootScope.currentUser = user;
+            }
+            deferred.resolve();
+        });
+
+        return deferred.promise;
+    };
+
 })();

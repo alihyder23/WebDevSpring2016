@@ -47,8 +47,6 @@ module.exports = function(app, newsModel) {
         var userId = parseInt(req.params.userId);
         var news = req.body;
 
-        console.log(req.body);
-
         newsModel.createNews(userId, news).then(function(news) {
             res.json(news);
         });

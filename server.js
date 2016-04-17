@@ -1,22 +1,29 @@
 /**
  * Created by AliHyder on 1/17/16.
  */
-var express = require('express');
-var bodyParser = require('body-parser');
-var session = require('express-session');
+var express         = require('express');
+var bodyParser      = require('body-parser');
+var multer          = require('multer');
+var passport        = require('passport');
+var cookieParser    = require('cookie-parser');
+var session         = require('express-session');
+require('dotenv').config();
 
 var app = express();
 
 app.use(express.static(__dirname + '/public'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(session({
-    secret: 'secret',
-    resave: false,
-    saveUninitialized: true,
-    cookie: { secure: true }
-}));
+multer();
 
+app.use(session({
+    secret: process.env.WEBDEV_SESSION_SECRET,
+    resave: true,
+    saveUninitialized: true
+}));
+app.use(cookieParser());
+app.use(passport.initialize());
+app.use(passport.session());
 
 var ipaddress = process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1';
 var port = process.env.OPENSHIFT_NODEJS_PORT || 3000;
