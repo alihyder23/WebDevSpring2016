@@ -28,9 +28,11 @@
 
         function updateNews() {
             $scope.selectedNews.title = $scope.newsTitle;
+            $scope.selectedNews.content = $scope.newsContent;
             NewsService.updateNewsById($scope.selectedNews._id, $scope.selectedNews).then(function(res) {
                 $scope.selectedNews = null;
                 $scope.newsTitle = null;
+                $scope.newsContent = null;
                 refresh();
             });
 
@@ -45,6 +47,7 @@
         function selectNews(index) {
             $scope.selectedNews = $.extend(true, {}, $scope.news[index]);
             $scope.newsTitle = $scope.selectedNews.title;
+            $scope.newsContent = $scope.selectedNews.content;
         }
 
         function refresh() {

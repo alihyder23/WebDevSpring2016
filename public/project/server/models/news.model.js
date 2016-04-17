@@ -78,8 +78,6 @@ module.exports = function(db, mongoose) {
             }
         });
 
-        deferred.resolve(news);
-
         return deferred.promise;
     }
 
@@ -91,7 +89,7 @@ module.exports = function(db, mongoose) {
             if(err) {
                 deferred.reject(err);
             } else {
-                findFormById(id).then(function(news) {
+                findNewsById(id).then(function(news) {
                     deferred.resolve(news);
                 });
             }
