@@ -1,10 +1,9 @@
-var mock = require("./news.mock.json");
-
-// load q promise library
 var q = require("q");
-var uuid = require("node-uuid");
 
 module.exports = function() {
+
+    var NewsSchema = require('./news.schema.js')(mongoose);
+    var NewsModel = mongoose.model('News', NewsSchema);
 
     var api = {
         createNews: createNews,
@@ -23,14 +22,16 @@ module.exports = function() {
 
         var deferred = q.defer();
 
-        news._id = uuid.v4();
         news.userId = userId;
-        mock.push(news);
 
         console.log("newNews: "+news);
 
-        findNewsForUser(userId).then(function(news) {
-           deferred.resolve(news);
+        NewsModel.create(news, function(err, doc) {
+            if(err) {
+                deferred.reject(err);
+            } else {
+                deferred.resolve(doc);
+            }
         });
 
         return deferred.promise;
@@ -40,7 +41,13 @@ module.exports = function() {
 
         var deferred = q.defer();
 
-        deferred.resolve(mock);
+        NewsModel.find({}, function(err, news) {
+            if(err) {
+                deferred.reject(err);
+            } else {
+                deferred.resolve(news);
+            }
+        });
 
         return deferred.promise;
     }
@@ -48,15 +55,12 @@ module.exports = function() {
     function findNewsForUser(userId) {
         var deferred = q.defer();
 
-        findAllNews().then(function(news) {
-            var userNews = [];
-
-            for(var n in news) {
-                if(news[n].userId === userId) {
-                    userNews.push(news[n]);
-                }
+        NewsModel.find({ userId: userId }, function(err, news) {
+            if(err) {
+                deferred.reject(err);
+            } else {
+                deferred.resolve(news);
             }
-            deferred.resolve(userNews);
         });
 
         return deferred.promise;
@@ -66,13 +70,13 @@ module.exports = function() {
 
         var deferred = q.defer();
 
-        var form = null;
-
-        for(var f in mock) {
-            if (mock[f]._id === id) {
-                news = mock[f];
+        NewsModel.findById(id, function(err, doc) {
+            if(err) {
+                deferred.reject(err);
+            } else {
+                deferred.resolve(doc);
             }
-        }
+        });
 
         deferred.resolve(news);
 
@@ -83,11 +87,14 @@ module.exports = function() {
 
         var deferred = q.defer();
 
-        findNewsById(id).then(function(oldNews) {
-            oldNews.title = form.title;
-            oldNews.userId = form.userId;
-
-            deferred.resolve(oldNews);
+        NewsModel.update({ _id: id }, news, function(err, result) {
+            if(err) {
+                deferred.reject(err);
+            } else {
+                findFormById(id).then(function(news) {
+                    deferred.resolve(news);
+                });
+            }
         });
 
         return deferred.promise;
@@ -97,26 +104,13 @@ module.exports = function() {
 
         var deferred = q.defer();
 
-        for(var i in mock) {
-            if(mock[i]._id === id) {
-
-                console.log(mock[i]._id + " === " + id);
-
-
-                var userId = mock[i].userId;
-                mock.splice(i, 1);
-
-                console.log('just spliced. finding news for user '+userId);
-
-                findNewsForUser(userId).then(function(news) {
-                    console.log('found them, now resolving...');
-                    deferred.resolve(news);
-                });
+        NewsModel.delete({ _id: id }, function(err, result) {
+            if(err) {
+                deferred.reject(err);
+            } else {
+                deferred.resolve();
             }
-            else {
-                console.log(mock[i]._id + " !== " + id);
-            }
-        }
+        });
 
         return deferred.promise;
 
@@ -126,15 +120,13 @@ module.exports = function() {
 
         var deferred = q.defer();
 
-        var news = null;
-
-        for(var f in mock) {
-            if (mock[f].title === title) {
-                news = mock[f];
+        NewsModel.findOne({ title: title }, function(err, doc) {
+            if(err) {
+                deferred.reject(err);
+            } else {
+                deferred.resolve(doc);
             }
-        }
-
-        deferred.resolve(news);
+        });
 
         return deferred.promise;
     }
@@ -142,6 +134,8 @@ module.exports = function() {
     function searchNews(string) {
 
         var deferred = q.defer();
+
+        var mock = findAllNews();
 
         var news = [];
 
