@@ -59,15 +59,15 @@
         }
 
         function login(user) {
-            return $http.post('/api/assignment/login', user);
+            return $http.post('/api/project/login', user);
         }
 
         function register(user) {
-            return $http.post('/api/assignment/register', user);
+            return $http.post('/api/project/register', user);
         }
 
         function logout() {
-            return $http.post('/api/assignment/logout');
+            return $http.post('/api/project/logout');
         }
 
     }
