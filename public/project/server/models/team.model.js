@@ -1,10 +1,11 @@
-var mock = require("./team.mock.json");
-
-// load q promise library
 var q = require("q");
 
 
-module.exports = function() {
+module.exports = function(db, mongoose) {
+
+    var TeamSchema = require('./team.schema.js')(mongoose);
+    var TeamModel = mongoose.model('Team', TeamSchema);
+
 
     var api = {
         updateTeam: updateTeam,
@@ -14,14 +15,50 @@ module.exports = function() {
 
     return api;
 
+    function updateNews(id, news) {
+
+        var deferred = q.defer();
+
+        NewsModel.update({ _id: id }, news, function(err, result) {
+            if(err) {
+                deferred.reject(err);
+            } else {
+                findNewsById(id).then(function(news) {
+                    deferred.resolve(news);
+                });
+            }
+        });
+
+        return deferred.promise;
+    }
+
     function updateTeam(team) {
-        mock = team;
+        var deferred = q.defer();
+
+        TeamModel.remove(({}),function(err, result) {
+        });
+
+        TeamModel.create(team, function(err, result) {
+            if(err) {
+                deferred.reject(err);
+            } else {
+
+            }
+        });
+
+        return deferred.promise;
     }
 
     function getPlayers() {
         var deferred = q.defer();
 
-        deferred.resolve(mock);
+        TeamModel.find({}, function(err, team) {
+            if(err) {
+                deferred.reject(err);
+            } else {
+                deferred.resolve(team);
+            }
+        });
 
         return deferred.promise;
     }
@@ -30,17 +67,22 @@ module.exports = function() {
 
         var deferred = q.defer();
 
-        var players = [];
+        TeamModel.find({}, function(err, team) {
+            if(err) {
+                deferred.reject(err);
+            } else {
+                var search = [];
+                for (var i in team) {
+                    if ((team[i].name.toLowerCase().indexOf(string) > -1) || (team[i].position.toLowerCase().indexOf(string) > -1)
+                        || (team[i].nationality.toLowerCase().indexOf(string) > -1)) {
+                        search.push(team[i]);
+                    }
 
-        for (var i in mock) {
-            if ((mock[i].name.toLowerCase().indexOf(string) > -1) || (mock[i].position.toLowerCase().indexOf(string) > -1)
-                || (mock[i].nationality.toLowerCase().indexOf(string) > -1)) {
-                players.push(mock[i]);
+                    deferred.resolve(search);
+                }
             }
-        }
-        deferred.resolve(players);
+        });
 
         return deferred.promise;
     }
-
 };
