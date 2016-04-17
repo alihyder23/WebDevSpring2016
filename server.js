@@ -16,8 +16,10 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 multer();
 
+var secret = process.env.OPENSHIFT_SECRET_TOKEN || process.env.SECRET_SESSION;
+
 app.use(session({
-    secret: "YaGunnersYa",
+    secret: secret,
     resave: true,
     saveUninitialized: true
 }));
