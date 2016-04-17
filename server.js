@@ -17,7 +17,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 multer();
 
 app.use(session({
-    secret: process.env.SESSION_SECRET,
+    secret: "YaGunnersYa",
     resave: true,
     saveUninitialized: true
 }));
