@@ -7,6 +7,7 @@ var multer          = require('multer');
 var passport        = require('passport');
 var cookieParser    = require('cookie-parser');
 var session         = require('express-session');
+
 require('dotenv').config();
 
 var app = express();
@@ -16,13 +17,14 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 multer();
 
-var secret = process.env.OPENSHIFT_SECRET_TOKEN || process.env.SECRET_SESSION;
+var secret = process.env.OPENSHIFT_SECRET_TOKEN || process.env.SESSION_SECRET;
 
 app.use(session({
     secret: secret,
     resave: true,
     saveUninitialized: true
 }));
+
 app.use(cookieParser());
 app.use(passport.initialize());
 app.use(passport.session());
