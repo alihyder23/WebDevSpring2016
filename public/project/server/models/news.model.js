@@ -135,18 +135,23 @@ module.exports = function(db, mongoose) {
 
         var deferred = q.defer();
 
-        var mock = findAllNews();
+        NewsModel.find({}, function(err, news) {
+            if(err) {
+                deferred.reject(err);
+            } else {
+                console.log("THIS IS THE NEWS: " + news);
 
-        var news = [];
+                var search = [];
+                for (var i in news) {
+                    if ((news[i].title.toLowerCase().indexOf(string) > -1) || (news[i].content.toLowerCase().indexOf(string) > -1)
+                        || (news[i].author.toLowerCase().indexOf(string) > -1)) {
+                        search.push(news[i]);
+                    }
 
-        for (var i in mock) {
-            if ((mock[i].title.toLowerCase().indexOf(string) > -1) || (mock[i].content.toLowerCase().indexOf(string) > -1)
-                || (mock[i].author.toLowerCase().indexOf(string) > -1)) {
-                news.push(mock[i]);
+                    deferred.resolve(search);
+                }
             }
-        }
-
-        deferred.resolve(news);
+        });
 
         return deferred.promise;
     }
