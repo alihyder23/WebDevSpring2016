@@ -33,7 +33,7 @@
             else {
                 $scope.message = null;
                 UserService.createUser($scope.user).then(function(res) {
-                    $rootScope.currentUser = res.data[res.data.length-1];
+                    $rootScope.currentUser = res.data;
                     $rootScope.$location.url('/profile');
                 });
             }
