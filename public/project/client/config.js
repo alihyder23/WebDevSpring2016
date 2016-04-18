@@ -14,6 +14,13 @@
                         loggedin: checkCurrentUser
                     }
             })
+            .when("/admin", {
+                templateUrl: "./client/views/admin/admin.view.html",
+                controller: "AdminController",
+                resolve: {
+                    loggedin: checkAdmin
+                }
+            })
             .when("/profile", {
                 templateUrl: "./client/views/users/profile.view.html",
                 controller: "ProfileController",
