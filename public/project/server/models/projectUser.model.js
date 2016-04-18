@@ -22,8 +22,6 @@ module.exports = function(db, mongoose) {
 
         var deferred = q.defer();
 
-        console.log(user);
-
         ProjectUserModel.create(user, function(err, doc) {
             if(err) {
                 deferred.reject(err);

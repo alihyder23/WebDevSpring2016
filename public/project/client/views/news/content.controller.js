@@ -25,9 +25,8 @@
 
         function postComment() {
             var date = new Date();
-            console.log(date);
             $scope.article.comments.push({
-                user: $rootScope.currentUser.firstName + " " + $rootScope.currentUser.lastName,
+                user: $rootScope.currentUser.username,
                 comment: $scope.inputComment,
                 date: date
             });

@@ -17,7 +17,7 @@
         $scope.selectNews = selectNews;
 
         function addNews() {
-            var author =  $rootScope.currentUser.firstName + " " + $rootScope.currentUser.lastName;
+            var author =  $rootScope.currentUser.username;
             var date = new Date();
             NewsService.createNewsForUser($rootScope.currentUser._id, { title: $scope.newsTitle, content: $scope.newsContent, author: author, date: date, comments: [] }).then(function(res) {
                 $scope.newsTitle = null;

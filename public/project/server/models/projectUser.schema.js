@@ -6,8 +6,7 @@ module.exports = function(mongoose) {
         username: String,
         password: String,
         roles: [String],
-        email: String,
-        roles: [String]
+        emails: [String],
 
     }, { collection: 'project.user' });
 

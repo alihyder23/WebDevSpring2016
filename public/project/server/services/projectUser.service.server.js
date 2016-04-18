@@ -66,12 +66,8 @@ module.exports = function(app, projectUserModel) {
 
     function register(req, res) {
         var newUser = req.body;
-        newUser.roles = ['student'];
 
-        projectUserModel
-            .findUserByUsername(newUser.username)
-            .then(
-                function(user){
+        projectUserModel.findUserByUsername(newUser.username).then(function(user){
                     if(user) {
                         res.json(null);
                     } else {

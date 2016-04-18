@@ -27,6 +27,14 @@
         </div>
     </div>
     <div class="form-group">
+        <label for="role" class="control-label">Role</label>
+        <select ng-model="user.role " id="role" class="form-control">
+            <option value="fan">Fan</option>
+            <option value="fan,news">News</option>
+        </select>
+    </div>
+
+    <div class="form-group">
         <div>
             <button ng-click="register(user)" class="btn btn-danger btn-block">Register</button>
         </div>

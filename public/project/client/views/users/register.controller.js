@@ -12,8 +12,6 @@
         function register() {
             $scope.message = null;
 
-            console.log($scope.user.username);
-
             if ($scope.user == null) {
                 $scope.message = "Please fill in the required fields";
                 return;
@@ -33,6 +31,7 @@
             else {
                 $scope.message = null;
                 $scope.user.emails = [$scope.user.email];
+                $scope.user.roles = csvToArray($scope.user.role);
                 delete $scope.user.email;
                 delete $scope.user.password2;
 
@@ -40,6 +39,27 @@
                     $rootScope.currentUser = res.data;
                     $rootScope.$location.url('/profile');
                 });
+            }
+
+            function arrayToCsv(array) {
+                var csv = "";
+                for(var a in array) {
+                    var value = array[a];
+                    csv += value;
+                    if(a < array.length-1) {
+                        csv += ', ';
+                    }
+                }
+                return csv;
+            }
+
+            function csvToArray(csv) {
+                var array = [];
+                var split = csv.split(',');
+                for(var s in split) {
+                    array.push(split[s].trim());
+                }
+                return array;
             }
         }
     }

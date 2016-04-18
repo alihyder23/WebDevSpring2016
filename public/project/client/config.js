@@ -18,7 +18,7 @@
                 templateUrl: "./client/views/users/profile.view.html",
                 controller: "ProfileController",
                 resolve: {
-                    loggedin: checkAdmin
+                    loggedin: checkCurrentUser
                 }
             })
             .when("/login", {
@@ -33,21 +33,21 @@
                 templateUrl: "./client/views/news/news.view.html",
                 controller: "NewsController",
                 resolve: {
-                    loggedin: checkAdmin
+                    loggedin: checkCurrentUser
                 }
             })
             .when("/news/:newsId/content", {
                 templateUrl: "client/views/news/content.view.html",
                 controller: "ContentController",
                 resolve: {
-                    loggedin: checkAdmin
+                    loggedin: checkCurrentUser
                 }
             })
             .when("/mynews", {
                 templateUrl: "./client/views/news/mynews.view.html",
                 controller: "MyNewsController",
                 resolve: {
-                    loggedin: checkAdmin
+                    loggedin: checkNews
                 }
             })
             .when("/team", {
@@ -62,7 +62,7 @@
                 templateUrl: "./client/views/search/search.view.html",
                 controller: "SearchController",
                 resolve: {
-                    loggedin: checkAdmin
+                    loggedin: checkCurrentUser
                 }
             })
 
@@ -80,6 +80,24 @@
             $rootScope.errorMessage = null;
             // User is Authenticated
             if (user !== '0' && user.roles.indexOf('admin') != -1)
+            {
+                $rootScope.currentUser = user;
+                deferred.resolve();
+            }
+        });
+
+        return deferred.promise;
+    };
+
+    var checkNews = function($q, $timeout, $http, $location, $rootScope)
+    {
+        var deferred = $q.defer();
+
+        $http.get('/api/project/loggedin').success(function(user)
+        {
+            $rootScope.errorMessage = null;
+            // User is Authenticated
+            if (user !== '0' && user.roles.indexOf('news') != -1)
             {
                 $rootScope.currentUser = user;
                 deferred.resolve();
