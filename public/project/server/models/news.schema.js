@@ -5,7 +5,12 @@ module.exports = function(mongoose) {
         date: Date,
         author: String,
         userId: String,
-        content: String
+        content: String,
+        comments: [{
+            user: String,
+            comment: String,
+            date: String
+        }]
 
     }, { collection: 'project.news' });
 

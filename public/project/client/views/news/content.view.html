@@ -1,0 +1,47 @@
+<h1>{{article.title}}</h1>
+<table class="table table-striped table-bordered">
+    <thead>
+    <tr>
+        <th>{{article.author}}</th>
+        <th>{{article.date}}</th>
+    </tr>
+    </thead>
+    <tbody>
+
+    <tr>
+        <td colspan="2">
+            {{article.content}}
+        </td>
+    </tr>
+
+    </tbody>
+</table>
+
+<textarea ng-model="inputComment" class="form-control" id="comment" placeholder="Comment" rows = "3"></textarea>
+<br>
+<div>
+    <div>
+        <a ng-click="postComment()" class="btn btn-default btn-block" role="button">Post</a>
+    </div>
+</div>
+<br>
+<br>
+
+<label for="comments-table" class="control-label">Comments</label>
+<table class="table table-striped table-bordered" id="comments-table">
+    <thead>
+        <tr>
+            <th>User</th>
+            <th>Comment</th>
+            <th>Date</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        <tr ng-repeat="c in article.comments">
+            <td>{{c.user}}</td>
+            <td>{{c.comment}}</td>
+            <td>{{c.date}}</td>
+        </tr>
+    </tbody>
+</table>

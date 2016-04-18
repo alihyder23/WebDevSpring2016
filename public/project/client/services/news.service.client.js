@@ -9,6 +9,7 @@
         var model = {
             createNewsForUser: createNewsForUser,
             findAllNewsForUser: findAllNewsForUser,
+            findNewsById: findNewsById,
             deleteNewsById: deleteNewsById,
             updateNewsById: updateNewsById,
             findAllNews: findAllNews,
@@ -16,8 +17,12 @@
         };
         return model;
 
-        function createNewsForUser(userId, news){
+        function createNewsForUser(userId, news) {
             return $http.post('/api/project/user/'+userId+'/news', news);
+        }
+
+        function findNewsById(newsId) {
+            return $http.get('/api/project/news/' + newsId);
         }
 
         function findAllNewsForUser(userId) {
@@ -35,6 +40,7 @@
         function findAllNews() {
             return $http.get('/api/project/news');
         }
+
         function searchNews (string) {
             return $http.get('/api/project/news/search/'+string);
         }

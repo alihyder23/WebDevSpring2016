@@ -44,7 +44,7 @@
 
         <tr ng-repeat="n in news" ng-class="{'selectedRow' : n._id === selectedNews._id }">
             <!--<td><a href="#/forms/{{form._id}}/fields">{{form.title}}</a></td>-->
-            <td class="col-md-3">{{n.title}}</td>
+            <td class="col-md-3"><a href="#/news/{{n._id}}/content">{{n.title}}</a></td>
             <td class="col-md-7">{{n.content}}</td>
             <td class="col-md-2">
                 <div class="btn-group">

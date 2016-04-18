@@ -36,6 +36,13 @@
                     loggedin: checkAdmin
                 }
             })
+            .when("/news/:newsId/content", {
+                templateUrl: "client/views/news/content.view.html",
+                controller: "ContentController",
+                resolve: {
+                    loggedin: checkAdmin
+                }
+            })
             .when("/mynews", {
                 templateUrl: "./client/views/news/mynews.view.html",
                 controller: "MyNewsController",
