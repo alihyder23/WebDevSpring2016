@@ -1,21 +1,21 @@
 (function(){
     'use strict';
 
-    angular.module("FormBuilderApp")
+    angular
+        .module("FormBuilderApp")
         .controller("LoginController", LoginController);
 
-    function LoginController($rootScope, $scope, UserService){
+    function LoginController ($scope, UserService, $location, $rootScope) {
+        $scope.message = null;
         $scope.login = login;
 
         function login (user) {
-            UserService.findUserByCredentials(user.username, user.password).then(function(res) {
-                var user = res.data;
-                if (user) {
-                    $rootScope.currentUser = user;
-                    UserService.setCurrentUser(user);
-                    $rootScope.$location.url("/profile");
+            UserService.login(user).then(function(res) {
+                if(res.data) {
+                    UserService.setCurrentUser(res.data);
+                    $rootScope.$location.url('/profile');
                 } else {
-                    $scope.error = "Invalid Credentials!"
+                    $scope.error = "Invalid Username or Password"
                 }
             });
         }

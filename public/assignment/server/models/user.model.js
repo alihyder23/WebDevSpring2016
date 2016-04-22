@@ -1,7 +1,7 @@
 var q = require("q");
 
 
-module.exports = function(db, mongoose) {
+module.exports = function(mongoose) {
 
     var UserSchema = require('./user.schema.js')(mongoose);
     var UserModel = mongoose.model('User', UserSchema);
@@ -22,14 +22,12 @@ module.exports = function(db, mongoose) {
 
         var deferred = q.defer();
 
-        console.log(user);
-
         UserModel.create(user, function(err, doc) {
-           if(err) {
-               deferred.reject(err);
-           } else {
-               deferred.resolve(doc);
-           }
+            if(err) {
+                deferred.reject(err);
+            } else {
+                deferred.resolve(doc);
+            }
         });
 
         return deferred.promise;
